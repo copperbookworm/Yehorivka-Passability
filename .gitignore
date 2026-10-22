@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Downloaded map sources (large, rebuildable with tools/download_maps.py)
+.tmp/
+
+# Android / Gradle build output
+android/YehorivkaMap/.gradle/
+android/YehorivkaMap/build/
+android/YehorivkaMap/app/build/
+android/YehorivkaMap/local.properties
+android/YehorivkaMap/*.iml
+.idea/
+
+# Packaged artifacts
+*.apk
+*.aab
+
+# OS noise
+.DS_Store
+Thumbs.db

@@ -1,0 +1,15 @@
+{
+  "slug": "narva",
+  "label": "Narva",
+  "size": 2048,
+  "updated": "2026-10-21 16:33:33",
+  "tool": "annotate_maps.py/2",
+  "layers": [
+    "water",
+    "bridge",
+    "boundary",
+    "clear",
+    "obstacle",
+    "boat"
+  ]
+}

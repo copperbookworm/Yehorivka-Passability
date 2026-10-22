@@ -1,0 +1,15 @@
+{
+  "slug": "yehorivka",
+  "label": "Yehorivka",
+  "size": 2048,
+  "updated": "2026-10-21 18:13:48",
+  "tool": "annotate_maps.py/2",
+  "layers": [
+    "water",
+    "bridge",
+    "boundary",
+    "clear",
+    "obstacle",
+    "boat"
+  ]
+}
