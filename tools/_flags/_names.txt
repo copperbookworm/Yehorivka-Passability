@@ -1,0 +1,1042 @@
+5 Wing HQ
+Abandoned Airfield
+Abandoned Farm
+Abandoned Island
+Abandoned Service Hangars
+Abandoned Soviet Base
+Abandoned Storage
+Abdul's Farm
+Abul Khasib
+Abul Khasib West
+Adnaklett
+Agasi
+Agro
+Airfield Admin
+Airfield Checkpoint
+Airfield Defenses
+Airfield Hangars
+Airfield Outpost
+Airfield Trenches
+Airforce Camp
+Airport Hotel
+Airport Service Facilities
+Airport Terminal
+Airstrip
+Ajabay
+Ak Toba
+Akhtar's Compound
+Akim
+Akim Central
+Akim Lower
+Akim Upper
+Al Badran
+Al Jamhoria
+Al Khora
+Al Latif
+Al Majidia
+Al Taleah
+Al Taleah West
+Al Toza
+Al Tuwaisa
+Al Tuwaisa East
+Al Tuwaisa North
+Al Tuwaisa SE
+Al Tuwaisa South
+Al Tuwaisa SW
+Al Yawiyah
+Al Yawiyah North
+Al Yawiyah South
+Al-Fallujah
+Al-Khadra
+Al-Khidhir Estates
+Al-Zawahiri Compound
+Alexei Posad
+Alexey Posad
+Ali Abad
+Ali Air Base
+Ali Airbase NW
+Ali Billet
+Ali Hangar 1
+Ali Hangar 6
+Ali Hangar 7
+Ali Hangars 3 & 4
+Alingal
+Alleys
+Alma
+Ambar Banda
+Ambar Banda Bridge
+Ambush Hill
+Ammo Cache
+Ammo Dump (Resupply CP)
+Ammo Hill
+Ammo Warehouse
+Ammunition Bunker
+Ancient Ruins
+Antenna Compound
+Antenna Facility
+Apartments
+Arandu
+Aringshah
+Armory
+Army HQ
+Askari Hill
+Askari Outskirts
+Askari Slums
+Asmar
+At Tannuhmah
+Attock
+Auxiliary Storage
+Badeen
+Bahadur
+Bahadur Agriculture
+Bahadur Farm
+Bahadur Fields
+Bahadur Hill
+Bahadur Proper
+Bahadur Valley
+Bahadur West
+Bakery
+Bannu Rd
+Baraka Blockade
+Baraka Market
+Baraka North
+Baraka Road Blockade
+Baraka Road East
+Baraka Road Market
+Baraka Road North
+Baraka Road South
+Baraka Suburbs
+Barakat
+Batha
+Bay Comeau Central
+Bay Comeau East
+Bay Comeau West
+Bazaar
+Bazaar East
+Bazaar West
+Beach Defenses
+Beachhead
+Bend
+Bilovia
+Bilovia Farm
+Bilovia Overpass
+BioChem Lab
+Blue Mosque
+Boar Hunter's Club
+Bog Camp
+Bombed Apartments
+Boris Farmstead
+Boris' Farmstead
+Borneset Shipyard East
+Borneset Shipyard West
+Bornset Shipyard East
+Bornset Shipyard West
+Borvettunnelen
+Brickworks
+Bridge
+Bridge Alpha
+Bridge Construction
+Bridge Hold East
+Bridge Hold West
+Bridge Outpost
+Bridgehead
+Bridgeview Apartments
+Bringedal
+Bringedalslia
+Bunkers
+Bus Terminal
+Butcher
+Butcher's House
+Canal Crossing
+Canal Farm
+Canal Town
+Cannabis Farm
+Canyon Choke Point
+Canyon Chokepoint
+Canyon Exit NE
+Canyon Exit North
+Capo
+Captain's Farm
+Cargo Warehouse
+Carpenter's Guild
+Castle
+Castleview Apartments
+Cement Plant
+Cemetary
+Cemetery
+Central Ali Air Base
+Central Apartments
+Central Baraka
+Central DC 1
+Central DC 2
+Central District
+Central Estates
+Central Iraqi Hangars
+Central Lashkar
+Central Mansion
+Central Narva
+Central Nasrat
+Central Orchard
+CFB Goose Bay
+Chakar Kot
+Chanwan
+Chanwan Docks
+Chanwan Warehouse
+Checkpoint
+Chernikov Bridge
+Chernikov Central
+Chernikov Electric
+Chernikov Shoreline
+Chop Garage
+Chop Shop
+Church
+Churchill
+Civilian ATC
+Civilian ATC Tower
+Civilian Hangars
+Cliffside
+Cliffside Compound
+Clinic
+Clover Leaf
+Cloverleaf
+Coal Storage
+Commerce District
+Commercial District
+Commercial District East
+Commercial District North
+Commercial District South
+Commercial District West
+Commercial North
+Commercial SE
+Commercial SW
+Communication Outpost
+Communications Outpost
+Communications Towers
+Compound
+Compound 16
+Compound Abrams
+Compound North
+Compound Zulu
+Construction Compound
+Construction Site
+Construction Yard
+Contractor Compound
+Convoy
+Council Towers
+Courtyard
+Crash Site
+Cross Roads Central
+Cross Roads NE
+Cross Roads NW
+Crossing
+Crossroad
+Crossroads
+Crossroads Apartments
+Crossroads Block North
+Crossroads Block South
+Crossroads SE
+Crucible
+Crucible Alpha
+Crucible Bravo
+Crucible Gamma
+Customs Office
+Dacun
+Dacun Admin
+Dacun Docks
+Dacun Waterfront
+Dairy Farm
+Dam Administration
+Dam Inlet
+Dam Maintenance
+Dam Storage
+Daniel-Johnson Dam
+Darbond
+Darbond Hill
+Darin
+Date Orchard
+Date Orchards
+Date Orrchard
+Depot
+Deraki
+Derapet
+Derevnya
+Desert Edge
+Desna
+Destroyed Bridge
+Destroyed Hangars
+Diefenbunker
+Dieppe
+Distribution Center
+Distribution Centre
+District Center
+Docks
+Dog Park Apartments
+Dogram
+Dongchung East
+Dongchung West
+Dossland
+Downtown Storefronts
+Drilling Site
+Drug Den
+Drying House
+Dur Al Mattar
+Duwu
+Dylym
+East Al-Khidhir
+East Apartments
+East Batha
+East Gate
+East Mogilyovo
+East Mosque
+East Novo
+East Outskirts
+East Service Hangar
+East Stepne
+East Suburb
+East T
+Eastern Bank
+Eastern Poppy Farms
+Eastern Ridgeline
+EB Petrol
+Eik
+Elder's Compound
+Elders' Suburb
+Eridu
+Estate
+Extremist Suburb
+Factory
+Fama Apartments
+Farm
+Farming Community
+Farming Village
+Farms
+Farmstead
+Fermont
+Field
+Firebase Anna
+Firebase Boris
+Firebase Dmitri
+First Stand
+Fish Oil Factory
+Fishing Dock
+Fishing Village
+Flatene
+Flatholmen
+FOB Conolly
+FOB Grace
+FOB Inkpen
+FOB Papanov
+Forest House
+Forest Industrial
+Fort
+Fortification
+Fortifications
+Fortified ATC
+Fortified Farm
+Fortified Farmstead
+Fortress
+Foundry
+Four Corners
+Four Points
+Fruit Farm
+Fuel Depot
+Fuel Island
+Fuel Storage
+Fuel Storage North
+Fuel Storage Processing
+Furlongs
+Garages
+Gardez
+Gas Station
+Gas Town
+General's House
+Geneva Apartments
+Geneva Apts
+Ghawchak Village
+Ghost Town
+Godri
+Gold Mine
+Gosam
+Governor's Estate
+Grain Processing
+Gran Dell
+Grape Farm
+Green Bridge East
+Green Zone
+Gromova East
+Gromova North
+Gromova West
+Guesthouse
+Gulestan
+Gun Range
+Halsane
+Halsatoppen
+Hangars
+Hangers
+Hangu
+Hangu Agriculture
+Hangu Orchard
+Hangu Pitch
+Hangu Proper
+Hangu South
+Happy Valley
+Happy Valley Industrial
+Harbour
+Harbour Town
+Hareer
+Harju Industrial
+Harju Outskirts
+Helgheim
+Helicopter Base
+Hell Ridge
+Hemp
+Hemp Farm
+Hemp Nursery
+Hemp Processor
+Heroysund
+Highway 10
+Highway 10 Bridge
+Highway 10 Farmstead
+Highway 10 North Bridge
+Highway 10 South Bridge
+Highway 6 Bridge
+Highway 6 Gas Station
+Highway 6 Interchange
+Highway Farm
+Highway Farms
+Highway South Bridges
+Hill 11
+Hill 123
+Hill 13
+Hill 137
+Hill 24
+Hill 324
+Hill 37
+Hill 57
+Hilltop
+Hilltop Bunker
+Hilltop Encampment
+Hilltop Estate
+Hilltop Farm
+Hilltop Old Bunker
+Hilltop Redoubt
+Hilltop Storage
+Hjelmelandsgarden
+Holdout
+Homestead
+Hotel
+Hotel International
+House
+Houses
+Hunting Lodge
+HVT Compound
+Hydro Station
+Hyena Road
+Igor's Homestead
+Imam's Compound
+Imam's Residence
+Industrial Park
+Industrial Yard
+Informant's Compound
+Insurgent Checkpoint
+Insurgent Hideout
+Interchange
+Intersection
+Intersection Homes
+Iraqi Hangars 12 & 13
+Iraqi Hangars 16 & 17
+Iraqi Hangars 18 & 19
+Iraqi Hangars 21 & 22
+Iraqi Hangars 23 & 24
+Iraqi Hangars 25 & 26
+Island Alpha
+Island Bravo
+Island Charlie
+Island Farm
+Island House
+Island Park
+Island Suburbs
+Ivangorod Krepost
+Ivangorod Outskirts
+Ivanivka
+J Station
+Jarvikyla
+Järvikylä
+Jaykur
+Jipashi
+Jouzara
+Jouzara Hill
+Jouzara Proper
+Jouzara Valley
+Jowman
+Jubai
+Jubai Riverside
+Kaga
+Kalinovka
+Kamardhand
+KamKay
+Kanda Court
+Kanepi Apartments
+Kanepi North
+Kanepi Rd
+Kanepi South
+Kanju
+Kanju Lower
+Kanju Upper
+Käpy
+Käpy Lower
+Käpy Upper
+Kardalan
+Khabsi North
+Khadizai
+Khadizai Radio Tower
+Khail
+Khall
+Khune
+Kibasi Central
+Kibasi Market
+Kibasi NE
+Kibasi North
+Kibasi North West
+Kibasi NW
+Kibasi Police Station
+Kibasi South
+Kibasi West
+Kiriku
+Klyuchove
+Korsneset
+Kotal
+Kreenholm
+Kropy
+Kumbar Maidan Lower
+Kumbar Maidan Upper
+Kunar
+Kushtoz
+Kuznets
+Lagoon
+Lakay Gas Station
+Lakay Pass
+Lakay Ridge
+Lakeside House
+Landing Zone
+Larnaw
+Lashkar
+Lashkar East
+Lashkar Market
+Lavender Estate
+Lavender Farm
+Leader Compound
+Lia
+Lighthouse
+Lillehaug
+Liminka
+Ljosrnyr
+Loading Dock
+Lodi Khel
+Logger's Homestead
+Logging Camp
+Logistics Center
+Logistics Hub
+Lost Reservists
+Lower DC
+Lower District East
+Lower District West
+Lower Eik
+Lower Estates
+Lower Jouzara
+Lower Khadizai
+Lower Mogilyovo
+Lower Mohd Zai
+Lower Nasrat
+Lower Oil Storage
+Lower Orchard
+Lower Petrivka
+Lower Plantation
+Lower Poppy Farms
+Lower Sarozai
+Lower Stepne
+Lower Teishan
+Lower Thirah
+Lumber Mill
+Lumber Storage
+Lumber Yard
+Mahatt Ur
+Main
+Malak Abad
+Malgir
+Mandagal
+Mäntyharju
+Manyal
+Marina
+Marjah
+Market
+Matal
+Material Storage
+Materials Site
+Matrenino Hills
+Mayor's Compound
+Mechanic's Homestead
+Menzai
+Metsäkylä
+Metsäkylä Lower
+Metsäkylä North
+Metsäkylä South
+Metsäkylä Upper
+Military Airbase
+Military Apartments
+Military ATC
+Military ATC Tower
+Military Barracks
+Military Base
+Military Housing
+Military Housing Central
+Military Housing NW
+Military Housing SE
+Military Warehouse
+Mimi's Marsh
+Mine Entrance
+Missile Silos Underground
+Missle Silo
+Modi Khel
+Mogilyovo Farm
+Mogilyovo Foothills
+Mohd Zai
+Monastery
+Monolith
+Monument Park Apartments
+Mosque
+Motel
+MSR Apartments
+MSR Intersection
+MSR North Compounds
+MSR Overwatch SE
+MSR Overwatch SW
+MSR Overwatch W
+MSR South Compounds
+Muallimin
+Muallimin NE
+Muftiyah
+Muftiyah Bridge
+Muhammad's Compound
+Mullah's Compound
+Naan Market
+Naan Merchant
+Nahrain
+Näkymä
+Nangalam
+Narova
+Narova Abandoned
+Narova East
+Narova Ruins
+Narva Castle
+Narva Heights
+Narva Ridge
+Narva Station
+Nasrat Proper
+Naval Refueling Station
+Navy Base
+Navy Port
+NE Outskirts
+Neighbourhood
+Neightbourhood
+Neset
+Nexus
+Nilaw
+Niva Lower
+Niva Radio Tower
+Niva Upper
+Nomad Camp
+NORAD Facility
+NORAD Ground Station
+North Al-Khidhir
+North Ali Air Base
+North Batha
+North Canal
+North Gate
+North Highway Bridges
+North Market
+North Orchard
+North Poppy Farm
+North Road Pass
+North Silos
+North Suburb
+North Suburbs
+North VCP
+Northern Apartments
+Northern Neighborhood
+Nova Isle
+Novac
+Novo
+Novo Outskirts
+Novo Ozerne North
+Novo Ozerne South
+Novo Radio Tower
+Novo Ridgeline
+Nuristan
+Nursery
+Nyland
+Oasis
+Oasis Park
+Observation Outpost
+Observation Post
+Oil Cisterns
+Oil Refinery
+Old Barracks
+Old Camp
+Old Convent
+Old Estate
+Old Fort
+Old Homestead
+Old Hospital
+Old HQ
+Old Town
+Old Train Station
+Old Train Yard
+Old Van Doo Garrison
+OP Chaxton
+OP Fortress
+OP Hebb
+OP Larosse
+OP Leeks
+OP Letterkenny
+Open Air Market
+Opium Blackmarket
+Orchard
+Oru Village
+Oru Village East
+Oru Village West
+Outdoor Market
+Outpost
+Overgrown Village
+Overpass
+Overpass Ridge
+Ozerivka
+P115 Intersection
+Palace
+Pallane
+Paper Mill
+Paprok
+Parun
+Parusinka
+Paseka
+Paseka North
+Paseka South
+Patrol Base
+Pavlov's Farm
+Penstocks
+Peredove
+Petrivka Co-Op
+Petrivka Overpass
+Petrol Station
+Pier One
+Pier Three
+Pier Two
+Pig Farm
+Pipe Control
+Pipeline
+Plantations
+Plateau Village
+Plaza
+Police Station
+Pond Junction
+Poppy Farm
+Poppy Farms
+Postville
+Postville North
+Power Plant
+Power Plant Admin
+Power Plant Docks
+Power Station
+Pride Rock
+Pump Site
+Pump Station
+Qalat
+Quarry
+Quarry North
+Radar Station
+Radio Hill
+Radio Station
+Radio Station North
+Radio Tower
+Rail Bridge
+Recycling Station
+Refinery
+Refinery Housing
+Refueling Area
+Refugee Camp
+Refugee Camp East
+Refugee Camp West
+Regional Admin
+Rentang
+Rentang Admin
+Rentang Port North
+Rentang Port South
+RepairShop
+Research Station
+Residence
+Rice Farm
+Ridgeline
+Ridgeline Defenses
+Ridgeline Silos
+Ring Road
+Ring Road North
+Ring Road South
+Risala
+River Crossing
+River Estate
+River Fortification
+River Fortifications
+River Overlook
+Riverside
+Riverside Compounds
+Riverside Farms
+Riverside Hamlet
+Riverside Residence
+Road Block
+Roadside
+Rocky gorge
+Rooftop House
+Roundabout
+RRB Site
+Ruins
+Russian Border Checkpoint
+Russian Outpost
+Sablya
+Sablya Outskirts
+Sahib Abad
+Sanbai
+Sao
+Sarak
+Sarozai Highlands
+Sarozai Hill
+School
+Scrap Yard
+Scrapyard
+Service Area
+Shako
+Shamal Compound
+Shanty
+Shanty Marina
+Shark Cove
+Sheena
+Sheik's Compound
+Sheikhan
+Sheshatshiu
+Sheshatshiu East
+Sheshatshiu West
+Shevchenko
+Shevchenko Quarry
+Shimik
+Shipbreaker
+Shipbreakers
+Shipbreakers Admin
+Shipping Center
+Shipping Centre
+Shipping Yard
+Shipwreck
+Shipwreck Cove
+Shopping Center
+Shopping District
+Shoreside House
+Shrine
+Shtugra Waterfall
+Shu' Aiba
+Shu'aiba
+Shu'Aiba
+Shu'aiba Maket
+Shu'aiba Market
+Shu'Aiba Market
+Shuman
+Shura Compound
+Shurta Apartment E
+Shurta Apartment W
+Shurta Apartments
+Shurta Neighborhood
+Signals Regiment HQ
+Silos
+Sinbad Island
+Sinbad Island North
+Sluda Hamlet
+Sluda Overlook
+Slums
+Small Mosque
+Smuggler Hill
+Smuggler's Den
+Sokolov
+Soloninki
+Soloninki Lower
+Soloninki Ruins
+Soloninki Upper
+Souk
+South Ali Air Base
+South Apartments
+South Batha
+South East Farm
+South Farm
+South Highway Bridges
+South Orchard
+South Silos
+South Village
+Southern Farm
+Soviet Outpost
+Soviet Radio Station
+Springwater Homestead
+Staging Area
+Steinsletta
+Steinsletta Foot Hills
+Steinsletta Ridge
+Stepne
+Stepne Dairy
+Stepne Dairy Farm
+Stepne Farm
+Stonebend
+Storage Bunker
+Storage Site South
+Stordalen Pass
+Stordalen Ridge
+Storefronts
+Strip Mall
+Student Apartments
+Sub Pen
+Sugar Plantation
+Suni Khel
+Svingen
+SW Canyon Exit
+Swamp Homestead
+Syed Abad
+Sympathizer's Compound
+Tacan Site
+TACAN Site
+Taishan
+Taishan Lower
+Taishan Upper
+Takur Ghar
+Taqqut Coop
+Tatar
+Taxi Homestead
+Teishan Harbour
+Telecom Compound
+Telecom Facility
+Tempest Estate
+Terminal
+Terminal Building
+The Brick
+The Nest
+Thirah
+Thirah Highlands
+Tizak
+Toba
+Togh Sarai
+Toor Camp
+Toormang
+Toormang East
+Toormang West
+Torpedo Factory
+Torpedo West
+Town  Hall
+Town Hall
+Tractor Co-op
+Train Bridge
+Train Depot
+Train Inspection
+Train Station
+Train Yard
+Training Camp
+Training Center
+Transfer Station
+Trenches
+Truck Station
+Truck Stop
+Trucking Depot
+Truckstop
+TruckStop
+Trudove
+Trudove Outskirts
+Tunnel Defences
+Tunnel Defenses
+Tunnel Entrance
+Turu Apartments
+TV Station
+Twin Compound
+Two Story
+Underground Dam Outlet
+University
+Upper Ambar Banda
+Upper DC
+Upper DC Compound East
+Upper DC Compound West
+Upper District East
+Upper District West
+Upper Eik
+Upper Khadizai
+Upper Lashkar
+Upper Nasrat
+Upper Orchard
+Upper Petrivka
+Upper Plantation
+Upper Poppy Farms
+Upper Sarozai
+Upper Slums
+Upper Thirah
+Urban North
+Urban Outskirts
+Urban South
+Urmul
+Uskedalen
+Uuskula Apartments
+Uuskula Towers
+Uwaysan
+Vaagen
+VCP
+Verto
+Village
+Village Echo
+Vineyard
+VLF Array
+Walled Farm
+Warehouse
+Warehouse 21
+Warehouses
+Waste Treatment
+Waste Treatment Processing
+Watapur
+Water Storage
+Waterfall Village
+Waterside Houses
+Weather Station
+West Al-Khidhir
+West Batha
+West Harju
+West Mogilyovo
+West Novo
+West Outskirts
+West Petrivka
+West Stepne
+West Suburb
+West T
+Western Farms
+Western Fringe
+Western Neighborhood
+Western Ridge
+Western Spy Farm
+Western Suburbs
+Wheat Farm
+Women's Mosque
+Wunda Mart
+Wushiwan
+WW2 Bunkers
+Yard Apartments
+Yeho Airfield
+Yeho Airfield Hangers
+Yevhinivka
+Yueshan
+Yueshan Admin
+Yueshan Warehouse
+Yunbo
+Yunbo Docks
+Zatar Compound
+ZD-30 Compound
+Zeno's Homestead
+Zolota
+Zolota Bunkers
+Zolota Hillside

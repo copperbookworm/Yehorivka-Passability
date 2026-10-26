@@ -1,0 +1,15 @@
+{
+  "slug": "blackcoast",
+  "label": "Black Coast",
+  "size": 2048,
+  "updated": "2026-10-25 17:56:39",
+  "tool": "annotate_maps.py/2",
+  "layers": [
+    "water",
+    "bridge",
+    "boundary",
+    "clear",
+    "obstacle",
+    "boat"
+  ]
+}

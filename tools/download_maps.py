@@ -2,7 +2,7 @@ import json, sys, time, urllib.request, urllib.error, ssl
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 sys.stdout.reconfigure(encoding="utf-8")
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(r"D:\mil-ai")
 catalog=json.loads((ROOT/"tools/maps_catalog.json").read_text(encoding="utf-8"))
 out=ROOT/".tmp/maps_source"
 out.mkdir(parents=True, exist_ok=True)

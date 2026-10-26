@@ -1,0 +1,15 @@
+{
+  "slug": "tallil",
+  "label": "Tallil",
+  "size": 2048,
+  "updated": "2026-10-25 16:39:38",
+  "tool": "annotate_maps.py/2",
+  "layers": [
+    "water",
+    "bridge",
+    "boundary",
+    "clear",
+    "obstacle",
+    "boat"
+  ]
+}

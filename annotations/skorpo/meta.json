@@ -1,0 +1,15 @@
+{
+  "slug": "skorpo",
+  "label": "Skorpo",
+  "size": 2048,
+  "updated": "2026-10-25 16:38:06",
+  "tool": "annotate_maps.py/2",
+  "layers": [
+    "water",
+    "bridge",
+    "boundary",
+    "clear",
+    "obstacle",
+    "boat"
+  ]
+}

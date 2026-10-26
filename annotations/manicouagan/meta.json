@@ -1,0 +1,15 @@
+{
+  "slug": "manicouagan",
+  "label": "Manicouagan",
+  "size": 2048,
+  "updated": "2026-10-25 23:05:51",
+  "tool": "annotate_maps.py/2",
+  "layers": [
+    "water",
+    "bridge",
+    "boundary",
+    "clear",
+    "obstacle",
+    "boat"
+  ]
+}

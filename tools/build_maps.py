@@ -26,6 +26,66 @@ ANN = ROOT / "annotations"
 OUT = ROOT / "android" / "YehorivkaMap" / "app" / "src" / "main" / "assets" / "maps"
 N = 1024
 BASE_SIZE = 1536
+TOPO_SIZE = 1536
+FLAGS_DIR = ROOT / "tools" / "_flags"
+FLAGS_CN_FILE = ROOT / "tools" / "flags_cn.json"
+FLAG_MODE_TYPE = {"AAS": "aas", "RAAS": "raas", "Invasion": "inv"}
+
+
+def load_flags_cn() -> dict:
+    try:
+        return json.loads(FLAGS_CN_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+FLAGS_CN = load_flags_cn()
+
+
+def load_flag_db(name: str) -> dict:
+    """本图的旗点图层：{"<rawName>": {m,v,t,c:[cap],l:{names,order}}}；cap = [名称, 序号名, x, z, 几何, 序号, 主基地]"""
+    db = {}
+    if not FLAGS_DIR.is_dir():
+        return db
+    for path in sorted(FLAGS_DIR.glob("*.json")):
+        if path.name.startswith("_"):
+            continue
+        try:
+            d = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if str(d.get("map") or "").lower() != name.lower() or not d.get("caps") or not d.get("raw"):
+            continue
+        caps = []
+        for c in d["caps"]:
+            caps.append([
+                c.get("n") or c.get("id") or "",
+                c.get("disp") or c.get("n") or "",
+                round(float(c["x"]), 1),
+                round(float(c["z"]), 1),
+                c.get("sh") or [],
+                c.get("ord") or 0,
+                c.get("main") or 0,
+            ])
+        gm = d.get("gm") or "AAS"
+        ver = int("".join(ch for ch in str(d.get("ver") or "") if ch.isdigit()) or 1)
+        ent = {"m": gm, "v": ver, "t": FLAG_MODE_TYPE.get(gm, "aas"), "c": caps}
+        lanes = d.get("lanes")
+        if ent["t"] == "raas" and isinstance(lanes, dict) and lanes.get("order"):
+            ent["l"] = {"names": lanes.get("names") or list(lanes["order"].keys()),
+                        "order": lanes["order"]}
+        db[d["raw"]] = ent
+    return db
+
+
+def flags_js(db: dict) -> tuple[str, str]:
+    names = set()
+    for ent in db.values():
+        for cap in ent["c"]:
+            names.add(cap[0])
+    cn = {k: FLAGS_CN[k] for k in sorted(names) if k in FLAGS_CN}
+    return (json.dumps(db, ensure_ascii=False, separators=(",", ":")),
+            json.dumps(cn, ensure_ascii=False, separators=(",", ":")))
 
 STRUCT_KINDS = {
     "box", "house", "monoslopehouse", "monoslopehousedoor", "toppedbox",
@@ -45,6 +105,13 @@ def data_url(img: Image.Image, fmt: str = "PNG", quality: int = 88) -> str:
         img.save(buf, format="PNG", optimize=True)
         mime = "image/png"
     return f"data:{mime};base64," + base64.b64encode(buf.getvalue()).decode("ascii")
+
+
+def data_url_webp(img: Image.Image, quality: int = 80) -> str:
+    """整幅等高线地形图用 WebP：比同质量 JPEG 小 15-20%，细节更干净。"""
+    buf = io.BytesIO()
+    img.save(buf, format="WEBP", quality=quality, method=6)
+    return "data:image/webp;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
 
 
 def keep_large(mask, min_cells=120):
@@ -129,8 +196,13 @@ def process_map(m: dict) -> dict:
     base = Image.open(bpath).convert("RGB").resize((BASE_SIZE, BASE_SIZE), Image.Resampling.LANCZOS)
     base_small = base.resize((N, N), Image.Resampling.LANCZOS)
     tpath = src / "topomap.webp"
+    topo_out = None
     if tpath.exists():
-        topo_small = Image.open(tpath).convert("L").resize((N, N), Image.Resampling.LANCZOS)
+        topo_src = Image.open(tpath).convert("RGB")
+        topo_small = topo_src.convert("L").resize((N, N), Image.Resampling.LANCZOS)
+        # 0.32.0：另存一份彩色地形图给页面做底图切换
+        topo_out = topo_src.resize((TOPO_SIZE, TOPO_SIZE), Image.Resampling.LANCZOS)
+        del topo_src
     else:
         topo_small = None
 
@@ -154,6 +226,7 @@ def process_map(m: dict) -> dict:
     tj = src / "3d" / "trees.json"
     tb = src / "3d" / "trees.bin"
     tree_count = 0
+    tcount = np.zeros((N, N), dtype=np.int32)
     build_count = 0
     wall_count = 0
     if tj.exists() and tb.exists():
@@ -196,6 +269,9 @@ def process_map(m: dict) -> dict:
                     if gx < -rx or gy < -ry or gx > N + rx or gy > N + ry:
                         continue
                     tdraw.ellipse([gx - rx, gy - ry, gx + rx, gy + ry], fill=255)
+                    ix = min(N - 1, max(0, int(gx)))
+                    iy = min(N - 1, max(0, int(gy)))
+                    tcount[iy, ix] += 1
                     tree_count += 1
             else:
                 if not (bmin and bmax):
@@ -226,6 +302,8 @@ def process_map(m: dict) -> dict:
     cover = (np.asarray(blurred).astype(np.float32) / 255.0 * 250.0).clip(0, 250)
     build = np.asarray(build_img)
     obst = np.where(build > 0, 255, cover).astype(np.uint8)
+    # 0.29.0：每格树的棵数（0..250 饱和），供非「路线」模块使用
+    treecnt8 = np.clip(tcount, 0, 250).astype(np.uint8)
 
     # ---- water and bridges ----
     # SquadCalc's topographic layer tints water almost black while land stays
@@ -308,9 +386,11 @@ def process_map(m: dict) -> dict:
         minx=m["minx"], maxx=m["maxx"], minz=m["minz"], maxz=m["maxz"],
         spanx=spanx, spanz=spanz, lo=lo, hi=hi,
         base=data_url(base, "JPEG", 82),
+        topo=(data_url_webp(topo_out) if topo_out is not None else data_url(base, "JPEG", 82)),
         slope=png(slope8), elev=png(elev8), obst=png(obst),
         wall=png(wall8), road=png(road8), water=png(water8), bridge=png(bridge8),
         bound=png(boundary), clear=png(clear_road), mblock=png(manual_obst), boat=png(boat),
+        treecnt=png(treecnt8),
         trees=tree_count, builds=build_count, walls=wall_count,
         water_cells=int(water.sum()), bridge_cells=int(bridge.sum()),
         manual_water=manual_water, manual_bridge=manual_bridge,
@@ -341,9 +421,13 @@ def make_page(m: dict, data: dict | None) -> str:
     )
     sub = f'地形 {data["spanx"]/1000:.2f} × {data["spanz"]/1000:.2f} km · 高程 1 m/px · Squad 10.6'
     text = re.sub(r'<div class="sub">.*?</div>', f'<div class="sub">{sub}</div>', text, count=1)
+    # 0.24.0：地图选择放到「文件」栏（fileBarMount）之后 —— 文件栏在地图选项上边
+    anchor_bar = '<div id="fileBarMount"></div>'
+    if anchor_bar not in text:
+        raise SystemExit("template is missing " + anchor_bar)
     text = text.replace(
-        '<div class="sub">' + sub + '</div>',
-        '<div class="sub">' + sub + '</div>\n      ' + selector_html(m["slug"]),
+        anchor_bar,
+        anchor_bar + '\n      ' + selector_html(m["slug"]),
         1,
     )
     text = re.sub(
@@ -362,13 +446,22 @@ def make_page(m: dict, data: dict | None) -> str:
         text, count=1,
     )
     for key, url in (
-        ("IMG_BASE", data["base"]), ("IMG_SLOPE", data["slope"]), ("IMG_ELEV", data["elev"]),
+        ("IMG_BASE", data["base"]), ("IMG_TOPO", data["topo"]),
+        ("IMG_SLOPE", data["slope"]), ("IMG_ELEV", data["elev"]),
         ("IMG_OBST", data["obst"]), ("IMG_WALL", data["wall"]), ("IMG_ROAD", data["road"]),
         ("IMG_WATER", data["water"]), ("IMG_BRIDGE", data["bridge"]),
         ("IMG_BOUND", data["bound"]), ("IMG_CLEAR", data["clear"]), ("IMG_MBLOCK", data["mblock"]),
-        ("IMG_BOAT", data["boat"]),
+        ("IMG_BOAT", data["boat"]), ("IMG_TREE", data["treecnt"]),
     ):
         text = re.sub(rf'var {key} = "[^"]*";', f'var {key} = "{url}";', text, count=1)
+
+    fdb = load_flag_db(m["name"])
+    if "var FLAG_DB = " in text:
+        db_js, cn_js = flags_js(fdb)
+        text = re.sub(r"var FLAG_DB = [^\n]*;",
+                      lambda _m: "var FLAG_DB = " + db_js + ";", text, count=1)
+        text = re.sub(r"var FLAG_CN = [^\n]*;",
+                      lambda _m: "var FLAG_CN = " + cn_js + ";", text, count=1)
 
     css = (
         ".mapSwitch{display:flex;align-items:center;gap:8px;margin:0 0 12px}"

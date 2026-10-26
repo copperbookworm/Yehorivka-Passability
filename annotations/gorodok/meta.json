@@ -1,0 +1,15 @@
+{
+  "slug": "gorodok",
+  "label": "Gorodok",
+  "size": 2048,
+  "updated": "2026-10-25 22:00:20",
+  "tool": "annotate_maps.py/2",
+  "layers": [
+    "water",
+    "bridge",
+    "boundary",
+    "clear",
+    "obstacle",
+    "boat"
+  ]
+}
