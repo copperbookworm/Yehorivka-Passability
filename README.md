@@ -4,9 +4,11 @@ Squad（50v50 战术射击）的**离线战术地形分析** App：把 25 张官
 道路、水域、桥梁、旗点栅格化，在手机上算载具路线、可达区、通视范围、伏击点、架枪位、火力支援阵位，
 并且能在图上直接做**战术标绘**（敌情标记、自由路线、区域标注、旗点占领区）。
 
-纯本地计算：**没有 INTERNET 权限，一张地图一页 HTML，全部数据打进 APK**，飞行模式照用。
+纯本地计算：**一张地图一页 HTML，全部数据打进 APK**，飞行模式照用。
+0.39.0 起只声明一条 `INTERNET` 权限，供「地图数据 · 在线更新」里你手动点「检查更新 / 下载」时
+去 [Yehorivka-MapData](https://github.com/copperbookworm/Yehorivka-MapData) 拉数据包，不点完全不联网。
 
-* Android 7.0+（minSdk 26）· targetSdk 35 · 版本 **0.34.0**
+* Android 7.0+（minSdk 26）· targetSdk 35 · 版本 **0.43.4**
 * 单页 Canvas 引擎 + WebView 壳；同一份 HTML 也是桌面版，可直接用浏览器打开
 * 25 张官方地图（Yehorivka、Al Basrah、Narva、Gorodok、Skorpo、Logar …）
 
@@ -43,20 +45,22 @@ Squad（50v50 战术射击）的**离线战术地形分析** App：把 25 张官
 | 通视分析（2 km） | 2 km 内三色着色（地面可见 / 仅人物高度可见 / 遮挡），可叠加树林、建筑、围墙硬遮挡 |
 | 沿线通视 · 并集 / 交集 | 手画一条路线，按采样间距取点，叠出并集（青）与交集（绿），给面积、交集占比、单点平均与耗时 |
 | 测距 | 水平距离、高差、空间直线距离 |
-| 查询 | 点地图看高程 / 坡度 / 树冠 / 树棵数 / 世界坐标，浮卡同时给出游戏网格坐标 |
+| 查询 | 点地图看高程 / 坡度 / 树冠 / 树棵数 / 世界坐标，浮卡同时给出游戏网格坐标；标记点旁画**坡度箭头**指向下坡最快方向（可关，按图记忆）；坐标严格校验（子格只收 1–9，非法输入报原因） |
 
 **标绘与存档**
 
 | 模块 | 说明 |
 |---|---|
-| 敌情标记 | 110 个步兵 / 载具 / 工事图标，新建 / 选择两模式（拖动、旋转），状态（健康 / 受损带备注 / 阵亡·摧毁），每个标记可挂多条彩色箭头与自定义标签（型号 / 呼号），永远画在最上层 |
+| 敌情标记 | **352 个图标**（110 个步兵 / 载具 / 工事 + 23 个兵种 + 218 个武器，全部自绘 SVG），新建 / 选择两模式（拖动、旋转），状态（健康 / 受损带备注 / 阵亡·摧毁），每个标记可挂多条彩色箭头与自定义标签（型号 / 呼号），永远画在最上层 |
 | 自由路线 | 手绘折线，10 色，任意点写备注，每段自动带方向箭头 |
 | 区域标注 | 圆形 / 矩形，可命名、可旋转、可改色，只作标注不影响通行性计算 |
 | 旗点 · 占领区 | AAS / RAAS / Invasion 全部旗点：真实占领区轮廓（圆 / 矩形 / 胶囊）、序号、中英旗点名；RAAS 默认画出所有进攻链并合并同坐标占领区，也可只看单条链 |
 | 网格坐标 | 与游戏相同的 300 m 主格（A–V / 1–22）+ 100 m + 33 m 子格，可点图取值、输坐标定位 |
+| 地图数据 · 在线更新 | 手动「检查更新」读 GitHub 上的数据包清单，逐个地图下载（SHA256 校验）覆盖内置数据、也可删除回滚，不用重装 APK；不点就完全离线 |
 | 文件 | Word 式 新建 / 打开 / 保存 / 另存为，导出 .json 分享、导入继续编辑；存档写明所属地图，导入别图存档会自动切图；导出文件名用你填的名字 |
 | 清除 / 撤销 / 重做 | 每个模块自己的清除 / 撤销 / 重做，另有全部清除与全局撤销 / 重做 |
-| 分析结果保存 | 11 个分析工具的结果按地图自动存本机，随存档导出 / 导入 |
+| 主基地部队编成 | 选阵营 → 选**具体部队**（如 1st Infantry Division、504th Parachute Infantry Regiment、78th Detached Logistics Brigade），列出该部队全部载具（数量 / 开局或延迟几分钟 / 重生时间 / 票值 / 座位）、人员配置与名额、可用工事（建造点 / 上限）、火力支援（冷却 / 呼叫到命中 / 持续）；对局规模（大图 / 中图 / 小图）按「旗点 · 占领区」选中的那局**自动判定**，也可手动锁 |
+| 分析结果保存 | 12 个分析工具的结果按地图自动存本机，随存档导出 / 导入 |
 
 **显示**
 
@@ -66,16 +70,19 @@ Squad（50v50 战术射击）的**离线战术地形分析** App：把 25 张官
 | 等高线地形图 | 卫星底图一键换成按海拔上色的地形图（带山体阴影与细等高线），与卫星图逐像素对齐，自动让开通行性着色 |
 | 图例与统计 | 可通行比例、各等级面积、自由通行面积 |
 | 按钮图标 | 全部按钮带自绘内联 SVG 图标，随文字颜色着色，不联网 |
+| 地图右侧快捷键 | 手机 / 触屏布局下，放大 / 缩小 / 复位 / 等高线下面再接 **查（查询）· 距（测距）· 视（通视分析）** 三个按钮，与左侧面板等价，当前模块高亮 |
 
 ![多地图切换](docs/yehorivka-maps.png)
 ![网格坐标](docs/yehorivka-grid.png)
 ![敌情标记](docs/yehorivka-marks.png)
+![主基地部队编成](docs/yehorivka-squad-vehicles.png)
+![坡度箭头](docs/yehorivka-slope-arrow.png)
 
 更细的功能说明、算法口径和逐版本验证记录见 [android/README.md](android/README.md)。
 
 ## 下载
 
-Release 里附了构建好的 APK（0.34.0，release 构建但用 **debug keystore** 签名，方便侧载，
+Release 里附了构建好的 APK（0.43.4，release 构建但用 **debug keystore** 签名，方便侧载，
 不是 Play 商店签名）：
 
 <https://github.com/copperbookworm/Yehorivka-Passability/releases/latest>
@@ -194,8 +201,13 @@ the device: vehicle route planning (A*), reachability, line-of-sight (single poi
 along-route union / intersection), ambush and overwatch recommendations, vehicle fire-support
 planning, and full tactical markup (enemy markers with status and arrows, freehand routes,
 named regions, capture zones) with a Word-style save / export system and in-game grid
-coordinates. No network permission, no third-party runtime dependencies on the phone: the
-Android shell is a plain `WebView` around one self-contained HTML page per map.
+coordinates, plus a per-map **slope arrow** at the query marker and a **main-base unit roster**
+pick per faction (vehicles with unlock delay / respawn / tickets / seats, roles and slots,
+deployables, commander assets), whose match size (large / medium / small) follows the
+capture-zone layer you pick. No network permission, no third-party runtime dependencies on the
+phone: the Android shell is a plain `WebView` around one self-contained HTML page per map. The
+single declared permission is `INTERNET`, used only by the optional manual "map data · online
+update" that pulls SHA256-checked data packs from GitHub when you tap it.
 
 Build with JDK 17 + Android SDK 35 using the bundled Gradle wrapper, or open
 `android/YehorivkaMap` in Android Studio.

@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import argparse
 import base64
+import datetime
+import hashlib
 import io
 import json
 import math
@@ -24,6 +26,9 @@ TEMPLATE = ROOT / "yehorivka-vehicle-passability.html"
 SOURCE = ROOT / ".tmp" / "maps_source"
 ANN = ROOT / "annotations"
 OUT = ROOT / "android" / "YehorivkaMap" / "app" / "src" / "main" / "assets" / "maps"
+# 0.39.0：地图数据包（GitHub 托管，app 内手动下载更新）—— 生成到 dist/maps-data 后上传仓库
+DATA_OUT = ROOT / "dist" / "maps-data"
+DATA_BASE = "https://raw.githubusercontent.com/copperbookworm/Yehorivka-MapData/main/maps-data/"
 N = 1024
 BASE_SIZE = 1536
 TOPO_SIZE = 1536
@@ -411,7 +416,61 @@ def selector_html(current: str) -> str:
     )
 
 
-def make_page(m: dict, data: dict | None) -> str:
+def build_pack(m: dict, data: dict, fdb: dict) -> tuple[str, str]:
+    """0.39.0：一张图一个数据包（页面里 IMG_* / MINX / FLAG_DB 的同一份内容）。
+
+    返回 (v, 文本)。v = 数据包 sha256 的前 12 位，页面里的 MAP_DATA_V 与 manifest 的 v 一致，
+    这样才能判断「本机/内置」与「远端」孰新孰旧。
+    """
+    db_js, cn_js = flags_js(fdb)
+    pack = {
+        "schema": 1,
+        "slug": m["slug"],
+        "name": m["label"],
+        "minx": round(data["minx"], 2), "maxx": round(data["maxx"], 2),
+        "minz": round(data["minz"], 2), "maxz": round(data["maxz"], 2),
+        "lo": round(data["lo"], 2), "hi": round(data["hi"], 2),
+        "img": {
+            "BASE": data["base"], "TOPO": data["topo"], "SLOPE": data["slope"],
+            "ELEV": data["elev"], "ROAD": data["road"], "WALL": data["wall"],
+            "OBST": data["obst"], "WATER": data["water"], "BRIDGE": data["bridge"],
+            "BOUND": data["bound"], "CLEAR": data["clear"], "MBLOCK": data["mblock"],
+            "BOAT": data["boat"], "TREE": data["treecnt"],
+        },
+        "flag_db": json.loads(db_js),
+        "flag_cn": json.loads(cn_js),
+    }
+    t0 = json.dumps(pack, ensure_ascii=False, separators=(",", ":"))
+    pack["v"] = hashlib.sha256(t0.encode("utf-8")).hexdigest()[:12]
+    text = json.dumps(pack, ensure_ascii=False, separators=(",", ":"))
+    return pack["v"], text
+
+
+def write_manifest(entries: dict, builtin: dict) -> None:
+    """manifest.json：哪个图是什么版本、多大、sha256，外加本安装包内置的版本（builtin）。"""
+    old = {}
+    if (DATA_OUT / "manifest.json").exists():
+        try:
+            old = json.loads((DATA_OUT / "manifest.json").read_text(encoding="utf-8"))
+        except Exception:
+            old = {}
+    maps = dict(old.get("maps") or {})
+    maps.update(entries)
+    bi = dict(old.get("builtin") or {})
+    bi.update(builtin)
+    man = {
+        "schema": 1,
+        "updated": datetime.date.today().isoformat(),
+        "base": DATA_BASE,
+        "builtin": bi,
+        "maps": maps,
+    }
+    DATA_OUT.mkdir(parents=True, exist_ok=True)
+    (DATA_OUT / "manifest.json").write_text(
+        json.dumps(man, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+
+
+def make_page(m: dict, data: dict | None, fdb: dict | None = None, data_v: str = "") -> str:
     text = TEMPLATE.read_text(encoding="utf-8")
     label = m["label"]
     text = re.sub(r"<title>.*?</title>", f"<title>{label} 载具通行性 · 路线规划</title>", text, count=1)
@@ -455,13 +514,17 @@ def make_page(m: dict, data: dict | None) -> str:
     ):
         text = re.sub(rf'var {key} = "[^"]*";', f'var {key} = "{url}";', text, count=1)
 
-    fdb = load_flag_db(m["name"])
+    if fdb is None:
+        fdb = load_flag_db(m["name"])
     if "var FLAG_DB = " in text:
         db_js, cn_js = flags_js(fdb)
         text = re.sub(r"var FLAG_DB = [^\n]*;",
                       lambda _m: "var FLAG_DB = " + db_js + ";", text, count=1)
         text = re.sub(r"var FLAG_CN = [^\n]*;",
                       lambda _m: "var FLAG_CN = " + cn_js + ";", text, count=1)
+
+    # 0.39.0：本页内置数据版本 = 该图数据包的版本，面板据此判断远端是否有更新
+    text = re.sub(r"var MAP_DATA_V = '[^']*';", f"var MAP_DATA_V = '{data_v}';", text, count=1)
 
     css = (
         ".mapSwitch{display:flex;align-items:center;gap:8px;margin:0 0 12px}"
@@ -491,6 +554,8 @@ def main():
     if not wanted:
         raise SystemExit("no map")
     OUT.mkdir(parents=True, exist_ok=True)
+    entries: dict = {}
+    builtin: dict = {}
     for m in wanted:
         dest = OUT / f"{m['slug']}.html"
         if args.skip_existing and dest.exists():
@@ -498,13 +563,26 @@ def main():
             continue
         print("processing", m["slug"], flush=True)
         data = process_map(m)
-        page = make_page(m, data)
+        fdb = load_flag_db(m["name"])
+        data_v, pack_text = build_pack(m, data, fdb)
+        page = make_page(m, data, fdb, data_v)
         print("  trees", data["trees"], "builds", data["builds"], "walls", data["walls"],
               "water", data["water_cells"], "bridges", data["bridge_cells"],
               "manual", (data["manual_water"], data["manual_bridge"], data["manual_boundary"],
                           data["manual_clear"], data["manual_obstacle"], data["manual_boat"]), flush=True)
         (OUT / f"{m['slug']}.html").write_text(page, encoding="utf-8")
-        print("  wrote", (OUT / f"{m['slug']}.html").stat().st_size, flush=True)
+        DATA_OUT.mkdir(parents=True, exist_ok=True)
+        (DATA_OUT / f"{m['slug']}.json").write_text(pack_text, encoding="utf-8")
+        raw = pack_text.encode("utf-8")
+        entries[m["slug"]] = {"name": m["label"], "v": data_v, "size": len(raw),
+                              "sha256": hashlib.sha256(raw).hexdigest()}
+        builtin[m["slug"]] = data_v
+        print("  wrote", (OUT / f"{m['slug']}.html").stat().st_size,
+              "| pack", len(raw), "v", data_v, flush=True)
+
+
+    write_manifest(entries, builtin)
+    print("manifest", (DATA_OUT / "manifest.json").stat().st_size, "bytes,", len(entries), "maps", flush=True)
 
 
 if __name__ == "__main__":

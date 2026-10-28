@@ -93,10 +93,134 @@
 **绿色**=每个采样点都能看到（交集）；面板给出并集 / 交集面积与占并集的比例、单点平均面积、计算耗时，
 采样间距 / 分析半径 / 观察高度三个滑杆随改随算，另有「撤销上一点」与「清除路线」，结果随存档与分析结果一起保存。
 
+0.35.0 五件事：
+（1）**敌情标记图标扩到 352 个**：新增 Squad 官方 **兵种图标 23 个**（步枪兵 / 自动步枪兵 / 医疗兵 / 班长 /
+载具组员 / 飞行员 / 狙击手 / 工兵 / 侦察兵 / 新兵 / 专家 …）与 **武器图标 218 个**（ak74 / M4 / 各类配件组合），
+原有的 110 个不变；图标网格上方多了 **搜索框**（输「坦克」「ak」「医疗」即时过滤），类别多一栏 **武器**，
+重名的新图标自动改名（如 `rallypoint` → `rallypoint-2`）。
+（2）新图标是 **SVG 矢量文件**（`assets/icons/squad/*.svg`），按 **原始宽高比** 画：武器图标是 2:1 的横长剪影，
+贴到地图上不会被压成方块，网格缩略图与列表小图也都按比例显示。
+（3）新增 **官方载具名** 选择器：选中一个载具图标后，面板出现「官方名称」一栏，从 **424 条 Squad 官方载具名** 里
+**点一下就把名字写进标记标签**（自动同步到上面的标签输入框）；可按 **阵营**（20 个：美国陆军 / 俄罗斯陆军 /
+中国陆军 / 民兵 / 假想敌 …）与 **类别**（16 个：主战坦克 / 步兵战车 / 装甲运兵车 / 运输卡车 / 后勤卡车 /
+武装直升机 / 自行火炮 …）**两级筛选**，另有 **名称搜索**（输 BTR / T-72 / 直升机）和 **按此图标筛**
+（只看与当前图标同型的车）；同一个名字在多个阵营都有时只列一次，共 **234 个不同名称**。
+（4）标签上限 24 → **32 字**，够写 `T-72B3 2016` 这类长型号。
+（5）新增 **WebP → SVG 转换器**（`icons/edit_app/webp2svg`）：纯 Python，Pillow + numpy + potracer，
+自动区分「平面剪影（真描摹成 path）」与「照片（内嵌位图）」，批量 / 递归 / 并行 / 出 JSON 报告；
+`squad-armor/icons` 下 379 个 webp 转出 **345 个 SVG**（其余 34 个源文件本身是站点 404 的 HTML 兜底页）。
+
+0.38.0 改**区域标注的操作顺序**：先给区域**起名**，再决定**形状** —— 面板里名字输入框挪到形状按钮上面，
+名字点「应用名称」确认后 **圆形 / 矩形** 才解锁；没起名时两个形状按钮是灰的、点地图也不会新建区域（只提示先起名）。
+名字画一次就用掉（输入框清空、按钮重新锁上），接着画下一个要重新起名；选中某一行后**再点这一行**可取消选中，
+回去给新区域起名。
+
+0.39.0 把**地图数据搬上 GitHub**：25 张图的底图 / 高程 / 坡度 / 树冠 / 障碍 / 旗点打包成 25 个
+`.json` 数据包（约 63 MB）放在公开仓库
+[copperbookworm/Yehorivka-MapData](https://github.com/copperbookworm/Yehorivka-MapData)，
+App 里多了「地图数据 · 在线更新」面板，可以**手动检查 / 下载 / 删除**，下完立刻生效，**不用重装 APK**。
+装包里仍自带一份完整数据，没网照常用。
+
+0.40.0 在「敌情标记」面板顶上加了 **主基地部队编成**：选 **阵营**（17 个）→ **对局类型**
+（大图 · 进攻方 / 大图 · 防守方 / 中图 · 进攻方 / 中图 · 防守方 / 小图 / 小图 · 遭遇战 / 小图 · 种子局）→
+**具体部队**（如 1st Infantry Division、504th Parachute Infantry Regiment、第 78 独立补给旅），
+一次列出该部队的 **载具装备**（数量、**首次可用延迟**「开局」绿标或「延迟 N 分」、重生时间、票值、座位、
+车型）、**人员配置**（每个兵种的名额上限与变体数）、**可用工事**（建造点、FOB 数量上限、类别）、
+**火力支援 · 指挥官技能**（冷却 / 呼叫到命中 / 持续），底部有「复制该部队编成（文本）」。
+数据是从 Squad 10.6 游戏文件里导出的 **267 个可玩编制**：载具数量 / 延迟 / 重生取自每张 layer 的
+单位载具表（所以同一部队在大图进攻、大图防守下的编成不同），人员名额、工事、指挥官技能取自
+faction setup 的编制表；选择结果按本机记住，重开保持。
+
+0.41.0 让「主基地部队编成」**自己判断该选大图 / 中图 / 小图**：面板不再要你猜对局类型，
+它去读「旗点 · 占领区」里当前选中的那一局（如 `Yehorivka_Invasion_v1`），按这局的编制档自动选中
+**大图 · 进攻方 / 大图 · 防守方 / 中图 · 进攻方 / 中图 · 防守方 / 小图**，切换旗点图层时编成面板立刻跟着变
+（例：Yehorivka 从 AAS_v2 切到 Invasion_v1，编制仍是 LO 进攻方；Harju 的 AAS_v1 是大图、AAS_v2 是中图，跟着换）。
+判定依据是 **196 个图层** 的部队编成后缀（`_LO_` / `_LD_` / `_MO_` / `_MD_` / `_S_`，`_Skirmish` / `_Seed` 单独标注），
+**只有 Invasion 的大图 / 中图才分进攻方与防守方**（AAS、RAAS 两队编成相同，忽略攻守偏好）。
+提示行会写明来源与结果，右侧有 **关闭跟随 / 恢复跟随** 链接：手动换过对局类型就自动转成手动模式
+（提示行显示「手动「小图」」），点「恢复跟随」再回到自动。没有旗点数据的图（Jensen）提示
+「本图无旗点数据 · 无法自动判定对局规模」，手动选即可。跟随开关与攻守偏好按本机记住。
+
+
+0.42.0 在「查询」面板给标记点加了一个 **坡度小箭头**：琥珀色箭头以十字标记为起点，指向**高程下降最快
+（下坡最陡）的方向**，带深色描边，橄榄绿底图、等高线地形图、坡度热力图上都看得清；箭头长度固定 30 px，
+不随缩放变大变小。旁边的网格坐标标签会自动躲开箭头（箭头朝上时标签改画到标记点下方），不再压住箭头。
+方向用「以标记点为中心、**±4 格（约 ±25 m）窗口内的高程平面拟合**」取负梯度算 —— 高程本身是分级的
+（台阶状），单格相邻差值会左右乱跳，平面拟合给出的是这一小片地形的平均朝向。
+「网格坐标」里新增开关 **显示坡度箭头（指向下坡最快方向）**，默认打开，关掉只留十字标记与读数；
+开关按地图各自记住，重开保持。注意箭头只表示**地形朝向**，能不能过仍由下方「地面载具坡度上限」决定。
+
+0.43.0 把 **查询** 与 **测距** 挪到地图右侧，跟放大 / 缩小 / 复位 / 等高线那排按钮同类：竖排 40×40 圆角按钮，
+放大键下面多一条分隔线，再下面是 **查询（准星图标）** 与 **测距（尺子图标）**；点中时和模块按钮一样高亮（青边）。
+规则同放大键：手机 / 触屏布局才显示（`@media (max-width:880px),(pointer:coarse)`），桌面宽屏仍走左侧面板。
+
+点右侧 **查询** 直接弹出 **「查询坐标」对话框**，不用先在面板里找输入框：输入框预填上次查的坐标并自动聚焦，
+敲 `D3-7-4` 回车或点「定位」→ 对话框里就地显示网格坐标、类别、高程、坡度、树冠/开阔地与 X/Z（数据来自同一套
+读数），地图同步打十字标记；可以接着输下一个坐标。另一个入口是对话框里的 **「点地图得坐标」**（0.43.0 时叫
+「在地图上点选」，0.43.2 改名并加了手指图标）：关掉对话框、
+面板滑到「网格坐标」，这时点地图任意位置，**结果对话框会自动再弹出来**。左侧模块列表里的「查询」按钮也会弹这个
+对话框（行为统一），关掉对话框即回到面板。
+
+同一版还把 **自动下滑提速**：原来每个模块切换是 `setTimeout(80ms)` + `scrollIntoView({behavior:'smooth'})`，
+实测同一次 1290 px 的滑动 Firefox 原生 smooth 花 **613 ms**；现在改成先算面板内目标位置、再用
+**140 ms 三次缓出（`1-(1-p)³`）逐帧写 scrollTop** 的 `fastScroll()`，同样距离实测 **121 ms**（约 5 倍），
+且去掉了那 80 ms 的空等。16 个模块切换全部换成新函数，滑动结束后面板内目标区块稳定贴在面板顶部下方 6 px。
+
+0.43.1 修 **「显示网格坐标系（300 m）」复选框勾不勾都一样** 的 bug。根因在 `drawKP()` 的调用条件
+`if (state.kpOn || state.kpIdx >= 0)`：只要图上有查询标记（`kpIdx >= 0`），函数就会跑，而函数体里的网格线、
+方格字母 / 行号、100 m 子格数字、高亮绿框**全是无条件画的** —— 于是取消勾选只是把 `state.kpOn` 置 false，
+格子照样在。0.43.0 把这个坑暴露出来，是因为新的查询对话框让「点一下就有标记」变得太容易命中。
+现在这四段绘制全部包进 `if (state.kpOn)`，复选框成为网格的**唯一开关**：勾上出网格，取消只留十字标记、
+坐标标签与坡度箭头（查询标记本身不再被删）。
+
+复选框的语义也一起理顺并**按地图记住**（`localStorage['sqkp:<slug>']`）：
+- 没手动关过的前提下，第一次定位 / 点地图会自动打开网格（保持老版本观感）；
+- 玩家手动取消勾选后，之后无论再定位还是再点地图都**不会**把网格强行打开，重开地图依然保持关闭；
+- 在非查询模块里取消勾选仍按老行为顺手清掉标记（不改旧习惯）。
+
+0.43.2 把查询对话框里那个按钮从「在地图上点选」改名为 **「点地图得坐标」**，并给它配了一个**手指图标**
+（Material `touch_app`：竖起的食指 + 掌心 + 指尖轻触弧，24 grid 实心描边）。图标默认尺寸是 15 px，
+手指这类细节多的造型在 15 px 下会糊成一小块黑点，所以只对对话框按钮这一处放大到 **17 px**
+（`.dlgBtns button > svg.ic{width:17px;height:17px;margin-right:5px;vertical-align:-3px}`），
+不影响面板里其它按钮的图标尺寸。行走路径不变：点这个按钮 → 对话框关闭、提示「点地图任意位置」→
+在地图上点一个点 → 结果对话框自动弹回并显示网格坐标 / 高程 / 坡度。
+对话框里的「定位」「关闭」仍不带图标（`data-ic="skip"`），避免一行两个图标抢注意力。
+
+0.43.3 修 **越界坐标被当成合法格子静默定位** 的问题：`G10-3-12` 这种明显非法的坐标，老版本
+会被当成「列行两位写法」折算成 `G10-3-4` 并真的标到地图上，看起来像「非法坐标也能定位」。
+根因是 `kpParse()` 里对两位数字的分支：
+
+`if (p.length > 1){ var c = parseInt(p.charAt(0),10)-1, r = parseInt(p.charAt(1),10)-1; … }`
+
+也就是说 `12` 被读成「第 1 列第 2 行」，恰好等于键盘码 `4`。现在这条分支整段删掉，
+**每一级子格只认 `1–9` 的单个数字**（允许补零写成 `04`），并且把失败原因分开报：
+
+| 输入 | 现在的行为 |
+|---|---|
+| `G10-3-12` | 不合法：「二级子格只能填 1–9 中的一个数字…「12」不合法」 |
+| `G10-3-0` / `G10-3-33` | 不合法（同上，指出具体段） |
+| `H7-11-2` | 不合法：「一级子格…「11」不合法」（旧的两位写法已取消） |
+| `D3-7-4-1` | 不合法：「最多两级子格」 |
+| `ZZ99` / `J25-1` | 不合法：「主格 … 不在这张地图上」 |
+| `D3` / `D3-7` / `D3-7-4` / `d3-7-4` / `D03-07-04` / `D3 7 4` | 正常定位 |
+
+报错时**不会动上一个标记**：对话框保持打开、把原因写在结果区，面板那一路同样只在 `#kpOut` 报错。
+标签深度也改成由解析器返回（`pos.depth`），所以 `D3 7 4` 这种空格写法也能正确标到二级子格，
+不会只显示 `D3`。
+
+0.43.4 把 **通视分析（2 km）** 也挪到地图右侧：查 / 距下面再加一个 **眼睛图标按钮**，跟放大 / 缩小 / 复位 /
+等高线 / 查询 / 测距同一竖列（40×40、同样只在手机与触屏布局显示）。点它直接切到通视分析模块、
+面板自动滑到「通视分析」并把该模块按钮点亮（跟点左侧面板按钮完全等价），再点别的模块时高亮自动让出。
+面板里的「通视分析（2 km）」按钮照旧，两条入口行为一致。
+
 ![多地图切换](../docs/yehorivka-maps.png)
 
 ## 保留的桌面功能
 
+- **敌情标记图标 352 个（0.35.0）**：原有 110 个 + **兵种 23 个** + **武器 218 个**（SVG 矢量，按原宽高比绘制），
+  网格上方有搜索框，类别多一栏「武器」；新图标与旧图标重名时自动改名
+- **官方载具名（0.35.0）**：选中载具图标后可从 424 条 Squad 官方载具名里点选写入标签，
+  按 **阵营 20 个** × **类别 16 个** 两级筛选，另有名称搜索与「按此图标筛」
 - **沿线通视（并集 / 交集）（0.34.0）**：手画一条路线 → 按可调的采样间距取采样点 → 每点的通视范围叠成
   **并集**（青，至少一点可见）与 **交集**（绿，每点都可见），面板给面积、占并集比例、单点平均与耗时；
   间距 25–500 m、半径 0.5–3 km、眼高 1–3 m 可调，可叠加树林 / 建筑 / 围墙作硬遮挡
@@ -161,12 +285,16 @@
   另有导出 `.json` 分享到 QQ / 微信、从文件导入继续编辑；存档写明**所属地图**，导入别的地图的存档会**自动切到那张图**
 - **每个模块的清除 / 撤销 / 重做（0.24.0）**：每个模块自己的「清除」只清自己，旁边配 **撤销** / **重做**；
   顶部另有 **全部清除** 与全局撤销 / 重做（一步撤销 = 一次连续操作，不是一个点一步）
-- **区域标注**：圆形 / 矩形两种形状，画完可命名，区域名直接显示在地图上（0.22.0）；
+- **区域标注**：**先起名、再定形状**（0.38.0）——名字点「应用名称」确认后 **圆形 / 矩形** 才解锁，
+  没起名时形状按钮是灰的、点地图也不会新建区域；区域名直接显示在地图上（0.22.0）；
   矩形还能**旋转角度**（0.24.0）；颜色可改（10 色快捷色板 / 任意取色器 / 还原默认色，0.25.0）；
   可改名、可删除，只作标注、不影响通行性计算
 - **分析结果保存**：上面 11 个分析工具（路线 / 可达区 / 查询 / 伏击 / 入口 / 隐蔽点 / 隐蔽推进 /
   区域分区 / 视线 / 测距 / 火力支援）留下的结果按地图自动存本机，也会随存档导出 / 导入
 - **图层**：底图、通行性着色、围墙、1km 网格、网格坐标系（300 m）
+- **地图数据 · 在线更新（0.39.0）**：25 张图的数据包托管在 GitHub，面板里可 **检查更新 / 下载本图 /
+  下载有更新的 / 删除本图数据**；下载走原生线程（边下边算 SHA-256，大小与哈希都对上才替换），
+  存 App 私有目录 `files/maps/`，下完自动重载并改用本机包；删掉就退回安装包内置数据
 - **图例与统计**：可通行比例、各等级面积、自由通行面积
 
 ## 手机适配
@@ -175,7 +303,8 @@
 - 横屏：地图在左，面板在右（44% 宽）
 - 双指缩放 / 单指拖动；视角复位点右上角 `全`（双击地图已不再复位）
 - 页面禁止浏览器缩放、长按菜单；保留触摸反馈
-- 无网络权限，地图与数据全在 APK assets 里
+- 地图与数据全在 APK assets 里，**离线可用**；0.39.0 起加了一条 `INTERNET` 权限，
+  只用于「地图数据 · 在线更新」里你手动点「检查更新 / 下载」时去 GitHub 拉数据包，不点不联网
 
 ## 地图切换
 
@@ -265,9 +394,9 @@
 
 ## 直接安装（荣耀 WIN RT / MagicOS）
 
-APK：`dist/Yehorivka-Passability-0.26.0.apk`（40.52 MB / 42,488,433 字节；minSdk 26 / targetSdk 35；无权限、离线）
+APK：`dist/Yehorivka-Passability-0.43.4.apk`（54.02 MB / 56,644,206 字节；minSdk 26 / targetSdk 35；无权限、离线）
 
-SHA256：`22C0D9D9659E2C6F63FE37FAA9CD691E7213F52CDF125029DC3D7CB24F13327A`
+SHA256：`AF82922669A123BF68D990B8145B6A3329A21348DD51E73C62156E1847872D5D`
 
 1. 把 APK 传到手机（USB / 文件管理器 / 网盘）。
 2. 设置 → 安全 → 更多安全设置 → **安装外部来源应用**，允许文件管理器。
@@ -277,18 +406,28 @@ SHA256：`22C0D9D9659E2C6F63FE37FAA9CD691E7213F52CDF125029DC3D7CB24F13327A`
 
 ADB（手机开启 USB 调试）：
 
-    adb install -r dist/Yehorivka-Passability-0.26.0.apk
+    adb install -r dist/Yehorivka-Passability-0.43.4.apk
 
 > release 用 debug keystore 签名，方便个人侧载；**不是** Play 商店签名。
 
 ## 使用
 
+- **主基地部队编成**（0.40.0 / 0.41.0）：在「敌情标记」面板顶部选 **阵营 → 对局类型 → 具体部队**，
+  下面列出该部队的载具（含开局 / 延迟 N 分、重生、票值、座位）、人员名额、可用工事与指挥官技能；
+  底部「复制该部队编成（文本）」把清单复制成文字。0.41.0 起 **对局类型由「旗点 · 占领区」里选的那一局自动判定**
+  （提示行写明「旗点 Invasion · 大图 → 已自动选 大图 · 进攻方」），换旗点图层即跟着换；
+  想自己指定就改一下对局类型，会转成手动并出现「恢复跟随」。选择与跟随开关按本机记忆，重开保持。
 - **路线**：点起点，再点终点；再点起点会重新开始。
 - **可达区**：点地图任意位置，绿色区域即不越坡不穿林可达范围。
 - **查询**：点地图任意位置，浮动卡片显示类别 / 高程 / 坡度 / 树冠覆盖 / X/Z；切换模式后卡片收起，
-  网格点与键位十字留在图上（0.18.0 起也会被记住，重开地图还在）。
+  网格点与键位十字留在图上（0.18.0 起也会被记住，重开地图还在）。0.42.0 起标记点上还有一支**琥珀色
+  坡度箭头**，指向下坡最快方向；「网格坐标」里的「显示坡度箭头」可随时关掉，关掉后只留十字，按地图记住。
   卡片标题现在是**网格坐标**（如 `K8-5-4`），下方面板同步显示，可点“复制坐标”。
-- **网格坐标**：勾选“显示网格坐标系（300 m）”（或直接点“定位”）后地图叠加网格；
+  0.43.0 起地图右侧有 **查询 / 测距** 按钮（放大键下面，0.43.4 起再加一个 **通视分析** 眼睛按钮）：点「查询」直接弹 **查询坐标对话框**，
+  输坐标回车即定位，或点「点地图得坐标」（带手指图标）再点地图——点完结果框自动弹出。点「测距」直达测距面板。
+  各模块切换时的面板自动下滑也提速到约 120 ms（原先原生 smooth 约 600 ms）。
+- **网格坐标**：勾选“显示网格坐标系（300 m）”（或直接点“定位”）后地图叠加网格；0.43.1 起这个复选框是
+  网格的唯一开关，取消勾选立刻收起网格（十字标记与读数保留），选择按地图记住；
   在上方输入框敲 `D3`、`D3-7` 或 `D3-7-4` 回车/点“定位”即跳到该格并把该格框成绿色；
   也可以直接点地图取值。“清除标记”去掉绿框与读数。
 - **禁区**：先选“圆形/矩形”，再点两次；清空禁区按钮在下方。
@@ -336,9 +475,11 @@ ADB（手机开启 USB 调试）：
 - **点地图取坐标**：浮卡标题、下方面板、输入框三处同时给出 `D3-7-4` 这种三级坐标。
 - **输坐标定位**：敲坐标后回车或点「定位」，地图缩到 1.2 倍并把该格居中、框成绿色；
   输 `D3` 就只标到 `D3`，输 `D3-7` 就标到一级子格（标号深度跟随输入段数）。
-- 两种写法等价：`H7-11-2`（子格用两位：列 1–3 + 行 1–3）与 `H7-7-2`（键盘码）是同一格，
-  回显会写成 `H7-7-2　=H7-11-2`，抄哪个都行。
-- 容错：`d3-7-4`、`D03-07-04`、`D3 7 4` 都能解析；`ZZ99` 这类越界输入提示格式错误。
+- 每一级子格**只接受 1–9 的单个数字**（小键盘 `789 / 456 / 123` 排布）。0.43.3 起
+  `G10-3-12`、`G10-3-0`、`H7-11-2` 这类「多位 / 越界数字」**一律判为不合法并说明原因**，
+  不再像更早版本那样把两位数字当成「列 1–3 + 行 1–3」静默折算成别的格子。
+- 容错：`d3-7-4`、`D03-07-04`（子格补零）、`D3 7 4`（空格 / 逗号当分隔符）都能解析；
+  `ZZ99`、`J25-1`（超出本图行列）、`D3-7-4-1`（多于两级子格）会明确提示错在哪。
 - 坐标换算与浮卡里的世界坐标一致：网格原点就是图左上角（`MINX` / `MINZ`），列号沿 X 增大、
   行号沿 Z 增大，和 SquadCalc 的 `getKP()`（`src/js/squadMinimap.js`）定义相同。
 
@@ -509,17 +650,69 @@ ADB（手机开启 USB 调试）：
 
 ![存档](../docs/yehorivka-archive.png)
 
+## 地图数据 · 在线更新（0.39.0）
+
+### 数据从哪来
+
+25 张图的**底图 / 等高线 / 坡度 / 高程 / 道路 / 围墙 / 障碍 / 水面 / 桥梁 / 边界 / 树冠 / 旗点**
+被打包成 25 个 `<slug>.json`，加一个 `manifest.json` 清单，放在公开仓库
+[copperbookworm/Yehorivka-MapData](https://github.com/copperbookworm/Yehorivka-MapData) 的 `maps-data/` 下：
+
+```
+https://raw.githubusercontent.com/copperbookworm/Yehorivka-MapData/main/maps-data/
+    manifest.json          # 每张图的名字 / 版本 v / 字节数 size / sha256，还有各图的内置版本
+    yehorivka.json         # 单图数据包（本图 2.7 MB，25 张共约 63 MB）
+    al_basrah.json ...
+```
+
+数据包是 `{schema:1, slug, name, v, minx, maxx, minz, maxz, lo, hi, img:{BASE,TOPO,SLOPE,ELEV,ROAD,
+WALL,OBST,WATER,BRIDGE,BOUND,CLEAR,MBLOCK,BOAT,TREE}, flag_db, flag_cn}`；`v` 是**内容版本**
+（= 不含 v 的序列化 sha256 前 12 位），内容一变 `v` 就变，App 据此判断「有没有更新」。
+
+### App 里怎么用
+
+面板里滚到 **地图数据 · 在线更新**（在「统计」下面）：
+
+1. **检查更新** —— 读 GitHub 上的 `manifest.json`，显示「远端版 <v>（2.7 MB）· 已是最新 / 有更新，可以下载」；
+2. **下载本图** —— 只下当前这张图；**下载有更新的** —— 把清单里比本机新的图一次下完（会先问一次，再点一次确认）；
+   下载时那一行会实时显示百分比；
+3. 下完**自动重载页面**，状态变成「本机已下载 <v>（2.7 MB）· **正在用它**」——地图、坡度、树冠、旗点全部来自本机包；
+4. **删除本图数据** —— 删掉本机包，重载后回到安装包内置的那份（状态回到「本机没下载」）。
+
+数据源输入框默认填的就是上面那个 raw 目录，可以改成自己的镜像（末尾带 `/`），改完点「检查更新」重新读清单。
+
+### 实现
+
+- **Android 走原生桥**（`MainActivity.ArchiveBridge` 新增 `mapPackGet / mapPackInfo / mapPackList /
+  mapPackDelete / mapPackDownload / netGet`）：`HttpURLConnection` 在后台线程下载，**边下边算 SHA-256**，
+  大小与哈希都和清单对上才把 `.part` 原子改名成 `<slug>.json`；包存 `getFilesDir()/maps/`，
+  `index.json` 记 `{v, size, t}`。上限 24 MB/包、2 MB（清单）。
+  进度与结果通过 `runOnUiThread` → `evaluateJavascript` 回调页面（`window.__mapDl` / `window.__netGet`）。
+- **桌面浏览器没有桥**：退回 `fetch` + `localStorage`（键 `mappack:<slug>` 与 `mappack.meta`），
+  同一套逻辑在 Firefox 里验证过（raw 有 `Access-Control-Allow-Origin: *`，`file://` 页面也能读）。
+- **页面启动**时先问桥要本机包（`mapPackGet`）：有就覆盖页面里内置的 `MINX/MAXX/MINZ/MAXZ`、`ELEV_LO/HI`
+  与 14 个 `IMG_*`（data URL），并覆盖 `FLAG_DB / FLAG_CN`；没有就用页面内置数据 —— 所以**断网、删包都不会白屏**。
+  注意覆盖必须显式写 `BASE = ...` 这种赋值，**不能用 `window['IMG_'+k]`**（页面本身是个 IIFE，`var` 不在 window 上）。
+- **构建**：`tools/build_maps.py` 生成页面时同时把数据包写到 `dist/maps-data/` 并合并 `manifest.json`
+  （`builtin` 记每张图的内置版本，这样任意一页都知道别的地图的内置版本）。发布 = 把 `dist/maps-data/`
+  整个推到这个仓库，App 侧不用动。
+- **manifest 比对按字节**：桌面分支用 `arrayBuffer()` 取 `Uint8Array.length` 比大小，`TextDecoder` 转文本
+  ——早先用 `r.text().length` 比大小，中文旗点名是多字节，会误报「大小不符（2843045 ≠ 2843595）」。
+
 ## 区域标注 · 圆形 / 矩形（0.22.0）
 
-点面板里的 **区域标注 · 圆形 / 矩形**，然后：
+点面板里的 **区域标注 · 圆形 / 矩形**，然后（**0.38.0 起先起名，再定形状**）：
 
-1. 选 **圆形** 或 **矩形**；
-2. 在输入框里写名字（最多 20 字，如 `A 点` / `东侧集结区` / `弹药点`），点 **应用名称**；
+1. 在上面那个输入框里写名字（最多 20 字，如 `A 点` / `东侧集结区` / `弹药点`），点 **应用名称**——
+   名字确认后 **圆形 / 矩形** 两个按钮才解锁（没确认前是灰的，点不动）；
+2. 选 **圆形** 或 **矩形**；
 3. 点地图第一下定圆心 / 第一个角，第二下定半径 / 对角——区域立刻出现，名字显示在区域中心；
-4. 想接着画下一个就直接点，名字输入框会清空；不改名时名字会跟着一起画。
+4. 名字画一次就用掉：输入框清空、形状按钮重新锁上，接着画下一个要**重新起名 + 点应用名称**。
+   没起名时点地图**不会**新建区域（只会提示先起名）。
 
 画完不自动选中区域（否则下一个名字会被当成给刚画的区域改名）。要**改名**点列表该行的「改名」，
-改完再点 **应用名称**；要**删除**点该行的「×」；选错形状时点 **取消本次选点**。
+改完再点 **应用名称**；要**删除**点该行的「×」；选中某行后**再点这一行**可取消选中，回去给新区域起名；
+选错形状时点 **取消本次选点**。
 
 - 每个区域自动分配一种颜色（`#38e8ff` / `#4ade80` / `#ffe066` / `#ff8fd0` / `#c084fc` / `#ffa726` 循环），
   填充透明度 0.13、边框虚线；列表里带彩色色块、面积描述（`圆形 · r 783 m` / `矩形 · 874×589 m`）。
@@ -763,6 +956,344 @@ ADB（手机开启 USB 调试）：
 
 ## 验证
 
+- **0.35.0 Squad 官方图标（webp → SVG）+ 官方载具名选择器**：
+  - **转换器** `icons/edit_app/webp2svg/webp2svg.py`（v1.0.0，Pillow + numpy + potracer，无外部二进制）：
+    `python webp2svg.py "D:\mil-ai\squad-armor\icons" -o "D:\mil-ai\squad-armor\icons-svg"
+    --embed-max 1536 --embed-format webp --report … --allow-failures` → **345/379 成功**
+    （trace 285 + embed 60），耗时 71.5 s，源 34.4 MB → 20.8 MB；34 个失败全是站点 404 的
+    2043 字节 SPA 兜底页（HTML，不是 webp），已用 `meta/icon-paths.json` 反查确认取不到真图。
+    trace 模式：alpha 求不透明包围盒 → 2 倍放大再描摹 → 全不透明像素贪心聚色 + 剪掉「夹在两色连线上的
+    抗锯齿混色」+ 按占比剪 → 半透明外圈取描边色铺打底轮廓层 → 逐层 potrace 出 `fill-rule="evenodd"`
+    的 `<path>`（每层单独一条，与 `markvec.js` 的坑一致）。
+  - **入库 242 个 SVG**：23 个兵种（Role Icons 全 trace）+ 218 个武器（Weapon Icons 全 trace）+
+    1 个 `T_map_trackedapc_noturret`；复制到 `icons/squad/` 与 `assets/icons/squad/`（各 2.05 MB）。
+    重名改名 **1 处**：`rallypoint` → `rallypoint-2`（`tools/gen_squad_icons.py` 里 used 集合查重）。
+    Map Icons（40 个整幅小地图，embed 后 27.8 MB）、teamimage（17 个 2048²）、logo 不进 app。
+  - **面板**：类别按钮改成 4 列（步兵 / 载具 / 工事 / **武器**）+ 图标搜索框 `#markSearch`；
+    点类别实测 **步兵 29 / 载具 90 / 工事 15 / 武器 218 = 352**（0.34.0 是 6 / 89 / 15 = 110）。
+    SVG 图标走 `<img>`（`it.sv` → `ICON_DIR + 'squad/' + f + '.svg'`），grid 的
+    `object-fit:contain` 直接按原宽高比显示（武器是 2:1）；地图标记的非矢量分支改成按
+    `naturalWidth/naturalHeight` 等比缩放（`ar<0.62` 时放宽到 `sz*1.9`），正方形图标缩放与旧行为一致。
+  - **官方载具名**：`SQ_VEH` 424 条（来源 `squad-armor/data/Game_vehicles.json`，473 车 / 234 个唯一
+    displayName / 20 阵营 / 16 类别），两个下拉（阵营、类别）+ 名称搜索 `#markVehSearch`；
+    列表按**只按名称去重**渲染（首版按「阵营|名称」去重会出 M1A1×3、BMP-1×5）；
+    点名称写入标记标签（标签上限 24 → **32 字**）；`#markVehName` 只在选中**载具**图标时出现。
+  - **Chromium/Edge headless（430×900 @DPR2）实测**：载具名全部阵营 **234** 个按钮、组内 dup=0；
+    阵营=USA → 30，USA+MBT → `["M1A2"]`，搜 "btr" → 10 条（BTR-4 / BTR-80 / BTR-82A / BTR-D …）；
+    点 BTR-4 → 标签框 "BTR-4"、列表行「主战坦克「BTR-4」· 敌 · K12-2-6」；
+    武器类别 218 个、搜 "ak" → 18 个；`file://` 加载 APK 内页面时 218 个 SVG **218/218** 全部
+    `naturalWidth>0`（要等 ≥3 s，800 ms 采样会误判成 0/218）。
+  - `node --check`（模板内联 `<script>` 3,541,869 字符）通过；`python tools/build_maps.py`
+    重生成 25 页 + 0 报错（`yehorivka.html` 3,407,699 字节，含 `id="appVer">v0.35.0`、
+    `var SQ_VEH = [`、`icons/squad` 注释）；`versionCode 39` / `0.35.0`，APK
+    **55,239,859 字节（52.67 MB）**，SHA256
+    `06AE087E9653678056FBE7FDFC27E553CD4F1D973809BE030B600F34F276C735`，解包 entries 499、
+    `assets/icons/squad` **242** 个 SVG、`assets/maps` **25** 页。
+  - **Android 13 模拟器（AVD `asprobe33`，1080×2340，`-no-window -gpu swiftshader_indirect`）实测**：
+    `adb install -r` 成功，`am start` 后无 `FATAL EXCEPTION` / crash 日志，`mCurrentFocus` 落在
+    `MainActivity`。用 `adb forward tcp:9222 localabstract:webview_devtools_remote_<pid>` 接管 WebView，
+    自写 CDP 客户端（`D:\mil-ai\.tmp\emucdp.js`）在**包内真页面**
+    `file:///android_asset/maps/yehorivka.html` 上驱动：
+    `#appVer` = `v0.35.0`；点 `#mMark` 面板展开；`#markCatWpn` → **218** 个按钮且
+    **218/218 个 SVG `naturalWidth>0`**（`ag36_gl.svg` 214×82、`ak74.svg` 215×59、
+    `ag36_whitesmoke.svg` 200×74），搜索 "ak" → 18，控制台无错误；
+    用合成 `PointerEvent` 打到 `#cv` 落标记（载具 `AAT_Top`）→ 列表 1 行，
+    `#markVehName` `display:block`、**234** 个名称按钮、note「共 234 个名称…」；
+    阵营 USA → 30，USA+MBT → `["M1A2"]`，搜 "btr" → 10 条；点 `BTR-82A` →
+    标签框 "BTR-82A"、列表行「AAT_Top「BTR-82A」· 敌 · K12-2-6」。
+    视觉核对 `docs/yehorivka-squad-icons.png`（武器栏搜 ak 的 18 个白色 2:1 剪影）、
+    `docs/yehorivka-squad-vehicles.png`（载具类别 + 图标网格）、
+    `docs/yehorivka-veh-picker.png`（阵营/类别下拉 + 搜 btr 的 10 个名称）。
+  - **真机仍未验证**（`adb devices` 里只有 emulator，手机没连），触屏手感与真机性能只到模拟器这一级。
+  - 踩坑记录：`adb exec-out screencap -p > x.png` **必须用 `cmd /c` 重定向**，PowerShell 的 `>`
+    会把二进制写成 UTF-16，得到的 PNG 打不开（`Unsupported or malformed image data`）。
+
+- **0.35.1 两批开发的衔接修补（审计出 4 处，已全部修）**：
+  - 兵种图标标签重名 3 组（与原有 icon 撞名，步兵栏出现两个一模一样、tooltip 也相同的按钮）：
+    `机枪手` / `轻筒 LAT` / `重筒 HAT` → 新图标分别改成 **机枪手（兵种）** / **轻筒 LAT（兵种）** / **重筒 HAT（兵种）**；
+    `tools/gen_squad_icons.py` 的 `ROLE_LABEL` 与模板 `MARK_ICONS` 同步改。
+  - `rallypoint-2` 只改了文件名，标签还是 "rallypoint"（与工事里的集结点混淆）→ 改名时标签跟着变
+    （`gen_squad_icons.py` 里加 `if label == name: label = new`），模板标签也改成 `rallypoint-2`。
+  - **sv 载具图标的「按此图标筛」失效**：`markPanel` 里原写 `markVehIconNow = vIt.sv ? '' : vIt.f`，
+    而唯一一个 sv 载具图标 `T_map_trackedapc_noturret` 正好走这条 → 按钮亮着但列表不过滤；
+    改成 `markVehIconNow = vIt.f;`。
+  - **换图标后筛选状态不重置**：新增 `markVehIconPrev`，图标变化时 `markVehIconOn = false` 再重渲染，
+    免得换了个标记还停在上一个图标的筛选结果上。
+  - 顺带审计（`D:\mil-ai\.tmp\audit*.js`）：模板 352 条（29/90/15/218，文件名无重复）、242 个 SVG 与
+    `icons/squad` / `assets/icons/squad` 一一对应（不缺不多）、无重复函数/变量定义、`SQ_VEH` 424 行的
+    icon 全部能在 `MARK_ICONS` 里找到（所以「按此图标筛」对每个载具图标都有效）。
+  - **模拟器复验（0.35.1 重装后）**：`#appVer` = `v0.35.1`；步兵栏 29 个按钮 title **无重复**；
+    选「履带 APC（无炮塔）」落标记 → 「按此图标筛」→ **1** 个名称（BTR-D）、按钮变「取消图标筛选」；
+    改选「主战坦克」再落一个标记 → 自动回到 **234** 个名称且按钮复位（筛选已取消）；
+    武器 `ak74` 落标记后**设备截图放大可见白色步枪剪影**（此前只在 Edge 里验过，APK 里没验），
+    证据图 `docs/yehorivka-weapon-marker.png`（左：选中的 ak74 武器标记；右：履带 APC 载具标记）——
+    注意 CDP `Page.captureScreenshot` 拍不到 canvas 的 GPU 层（截出来是黑的），必须用
+    `adb exec-out screencap` + `cmd /c` 重定向。
+  - `node --check` 通过；`build_maps.py` 重生成 25 页（`yehorivka wrote 3,407,976`）；
+    `versionCode 40` / `0.35.1`，APK **55,242,447 字节**，SHA256
+    `E8D22C19BAAEFAB5898E10B8D85736B71CE32C4EF84BD6786665F9966770101C`。
+  - **真机仍未验证**（同一轮里 `adb devices` 只有 emulator）。
+
+- **0.36.0 装甲分析器（穿深 / 摧毁方案）**：在「敌情标记」面板里，选一台**有武器的攻击方载具**和一台**目标载具**（目标下拉自动排除攻击方，同一台车不能既当攻击手又当靶子），程序按 Squad 游戏数据算出**打哪个部位、用什么弹、几发能打掉、全命中时最多要多少发**。
+  - 数据来自 `D:\mil-ai\squad-armor\data\Game_vehicles.json`（Squad 10.6 的载具导出），`tools/gen_armor_data.py` 生成 `ARM_V` / `ARM_CV` / `ARM_DT` 三个表嵌进页面（**273 台唯一载具、218 台有武器、99,508 字节**）。装甲厚度取 `components.armor[].materials[].overridenThickness`（模型覆盖值优先，空才回退材料默认厚度）。
+  - 模型：`单发伤害 = 弹丸当量 × 目标部位伤害修正`；动能弹（`impactDamage = -1`）取伤害曲线枪口值（M256 曲线 8000 → M1A2 打 T-72B3 车体 800/发）；穿深按 61 点曲线随距离衰减（`ARM_SPAN = 1000 m`），只有「能不能穿」看距离，伤害不随距离掉。部位修正表用部件自己的 `damageTypes`，没有就用整车的；表里没有的伤害类别算 0（打不动）。击杀条件：车体 HP 归零或**弹药架 HP 归零**（引擎/履带只作附加信息）。
+  - 校验（与社区 HTK 表一致）：M1A2 的 M829A4 → T-72B3 车体 **4 发**、弹药架 **2 发**；M830A1 HEAT → 车体 5 发；M2A3 的 TOW → T-72B3 弹药架 **1 发**（社区「1 HTK on T-72 ammo rack」）；3BM60 → M1A2 车体 4 发。
+  - 面板：`#armAtk` / `#armTgt` 两个下拉按**类别分组**（optgroup 中文类别 + 台数）、`#armDist` 距离滑条（0–1000 m，默认 300）、`#armOut` 结果区（最省打法的结论 + 前 6 种可击穿武器，每条列车体/弹药架发数、穿深、备弹、可穿部位）；两个按钮 **「攻击方 ← 选中标记」「目标 ← 选中标记」** 把地图上已写官方名称的标记一键填进选择器，与 0.35.0 的载具名选择器闭环。
+  - 模拟器复验（AVD asprobe33，Android 13，重装后）：`#appVer` = `v0.36.0`；面板展开后 `#armAtk` 219 项（218 台 + 占位）/ `#armTgt` 273 项；M1A2 → T-72B3 @300 m 结论「打爆弹药架 2 发即可；全命中时最多需要 4 发（打穿车体）；备弹 21 发，够打完；共 3 种武器能击穿」；M2A3 → T-72B3「TOW 打爆弹药架 1 发，最多 2 发」；地图上放标记 + 载具名写 `M2A3` + 点「目标 ← 选中标记」→ 目标变 `M2A3 · 2000 HP`，攻击方切 BMP-2 →「9M113 Konkurs 打爆弹药架 1 发，最多 2 发」；控制台 clean。
+  - 证据图 `docs/yehorivka-armor.png`（左：攻击方/目标选择器；右：穿深与摧毁方案结果）。
+  - 说明：未计入入射角、跳弹与未击穿蹭伤，数值是**估算**，面板里也写明了；未列出的部位视为打不到。
+  - `node --check` 通过；`build_maps.py` 重生成 25 页（`yehorivka wrote 3,520,149`）；`versionCode 41` / `0.36.0`，APK **55,602,163 字节**，SHA256 `28EE1509225105E887C646A17C1E625BF5226CE271EE032A0CF0B9CF700D760C`；包内 25 页全部带 `#armorSec`。
+  - **真机仍未验证**（`adb devices` 里依旧只有 emulator）。
+
+- **0.36.1 一键交换攻击方 / 目标**：「装甲分析」的两个下拉之间加了一个 `⇅ 交换攻击方 / 目标` 按钮（`#armSwap`），点一下攻击方和目标对调，结论区立刻按新方向重算。已选齐两台才可点（未选时置灰），目标若是没有武器的后勤车会提示「没有武器，不能当攻击方」而不交换。
+  - 实测（模拟器内）：M1A2 → T-72B3「M829A4 打爆弹药架 2 发 / 最多 4 发」→ 点交换 → T-72B3 → M1A2「9M119M 打爆弹药架 1 发 / 最多 3 发，备弹 2 发不够，需要补给 1 发」→ 再点交换 → 回到原结论；`BMC-185 Logistics` 作目标时交换被拒绝并给提示。
+  - `node --check` 通过；`build_maps.py` 重生成 25 页（`yehorivka wrote 3,521,229`）；`versionCode 42` / `0.36.1`，APK **55,608,311 字节**，SHA256 `35609B45240A5724F7C4BAFBEDDD040944C1A7EC0AD063A8E5528B9D82CF4480`；包内 25 页全部带 `#armSwap`，242 个 SVG 图标仍在。
+  - 证据图 `docs/yehorivka-armor.png` 已更新（左：两个下拉 + 交换按钮 + 两个「← 选中标记」按钮）。真机仍未验证。
+
+- **0.37.0 重名图标不再跳过（改名并存）**：以前根目录那批官方载具 webp 与 app 里已有图标同名就直接跳过；现在改成**照收 + 改名**，`<name>-2` 追加进「载具」栏，标签加「（新）」后缀区分。
+  - 新增 26 个：`T_map_helicopter_lightcas-2` / `T_map_helicopter_scout-2` / `T_map_mgs-2` / `T_map_trackedapc_logistics-2` / `T_map_trackedapc_msv-2`，以及 `map_antiair-2`、`map_apc-2`、`map_attackhelo-2`、`map_boat-2`、`map_ifv-2`、`map_jeep-2`、`map_jeep_antitank-2`、`map_jeep_artillery-2`、`map_jeep_logistics-2`、`map_jeep_transport-2`、`map_jeep_turret-2`、`map_motorcycle-2`、`map_tank-2`、`map_trackedapc-2`、`map_trackedifv-2`、`map_trackedjeep-2`、`map_transporthelo-2`、`map_truck_antiair-2`、`map_truck_logistics-2`、`map_truck_transport-2`、`map_truck_transport_armed-2`。
+  - 图标总数 **352 → 378**（步兵 29 / 载具 116 / 工事 15 / 武器 218），`icons/squad` 与 `assets/icons/squad` 各 **268** 个 svg；重名 0、标签重名 0、图标文件缺/多 0。
+  - `tools/gen_squad_icons.py` 的 `used` 集合改成只统计内置那批（排除上次插入的 SQ_ICONS 段，否则二次运行会把全部 242 个也当成重名改成 `-2`）；根目录图标走新分支 `elif d == ""`，标签取现有中文名 + 「（新）」。
+  - 实测（模拟器内）：`#appVer` = `v0.37.0`；点「载具」→ **116** 个按钮 title 无重复；搜「新」筛出 **26** 个新图标，`map_trackedifv-2.svg` 69×94 与 `map_tank-2.svg` 78×117 都正常加载（26/26）。
+  - 证据图 `docs/yehorivka-new-icons.png`（搜「新」后筛出的 26 个重描图标）。
+  - `node --check` 通过；`build_maps.py` 重生成 25 页（`yehorivka wrote 3,523,338`）；`versionCode 43` / `0.37.0`，APK **55,640,062 字节**，SHA256 `F706EBF22CB060AAB1321BAFD027313E003BAB5E1D5B24134755E9537EB0DEFF`；包内 525 entries、25 页均 `v0.37.0`、268 个 svg。
+  - 仍剩 **34 个 webp 是站点 404 兜底页**（拿不到真图），与本次无关，未变。真机仍未验证。
+
+- **0.38.0 区域标注改成「先起名，再定形状」**：以前是「先点圆形 / 矩形，再写名字点应用名称」，现在反过来 ——
+  名字没确认时**不能新建区域**。
+  - 面板顺序换掉：#regSec 里 **名字输入框 + 「应用名称」** 挪到 **圆形 / 矩形** 上面，#regShapeRow 在名字行下面；
+    两个形状按钮默认带 disabled，CSS `#regSec .presets button:disabled{opacity:.4;cursor:not-allowed}` 让它们看起来就是灰的。
+  - 新增 regDraftName（已确认的名字）+ regSetDraft() / regSyncGate()：regApplyName() 确认名字后才解锁形状按钮；
+    点形状时若没有名字直接 regShapeHint() 提示；regClick() 第一道判断就是「没确认名字 → 不新建区域」并给出三种不同提示
+    （没写字 / 写了没点应用 / 别的地方）。名字画一次就用掉（regSetDraft('')），输入框清空、按钮重新锁上。
+  - 改名路径保留：选中某区域后点「应用名称」= 改名；**再点该行取消选中**（regRenderList 里 k0 === regSel 分支），
+    否则选中状态下永远无法给新区域起名（自测时踩到，已修）。
+  - 提示文案与 setMode('region') 的 modeHint 一起改：名字行「先填区域名并点应用名称确认，形状按钮才会解锁」。
+  - 验证（Firefox + Marionette 驱动真实 PointerEvent，与 APK 内页面同一份 HTML）：没起名点圆形 → 无反应；点地图两下 →
+    sqregion:* 一个键都没写、提示「先给区域起名…没起名不能新建区域」；空名字点应用名称 → 提示「没有名字不能新建区域」；
+    写「A 点」+ 应用名称 → 两个按钮解锁 → 点两下地图 → {"name":"A 点","type":"circle"} 落库、输入框清空、按钮重新锁上；
+    只打字不点应用名称就点地图 → 提示「还没确认」且区域数不变；矩形同样走通；选中行改名 → 只是改名，区域数不变。
+  - 模拟器实测（AVD asprobe33，重装 0.38.0 后）：#appVer = v0.38.0；面板里名字行在形状按钮上方、两个形状按钮灰；
+    点「圆形」无反应；点地图两下 → 提示「先给区域起名：填名字 → 点「应用名称」→ 选形状 → 点地图。没起名不能新建区域。」、仍是「暂无区域」；
+    空名字点应用名称 → 「没有名字不能新建区域：先在输入框填区域名，再点「应用名称」。」；
+    输入 A1 + 应用名称 → 两个按钮变亮、#regWho 写「下一个区域会命名为 A1」；点地图两下 → 画出圆 A1 · r 2017 m、名字在圆心、
+    输入框清空、按钮重新变灰、提示「已添加「A1」（圆形 · r 2017 m）」。
+  - node --check 通过；build_maps.py 重生成 25 页（yehorivka wrote 3,526,812）；versionCode 44 / 0.38.0，
+    APK **55,666,626 字节**，SHA256 6BBCF89D5CF7F2062E65534430517ABF0F233D7DAF45A3ECEE4CAD65676631A1；
+    包内 525 entries、25 页均 v0.38.0 且都带 regSyncGate、268 个 svg 不变。
+  - **真机仍未验证**（adb devices 只有 emulator-5554）。
+
+- **0.39.0 地图数据搬上 GitHub，App 里手动下载更新（不用重装）**：25 张图的底图 / 高程 / 坡度 /
+  树冠 / 障碍 / 道路 / 旗点打包成 25 个数据包 + 一份 `manifest.json`，放在公开仓库
+  **copperbookworm/Yehorivka-MapData**（`maps-data/`，26 个文件共 65,732,978 字节，提交
+  `227b3bd1e58ca38508dc5f838a98fb9086fbf9a7`）；raw 基址
+  `https://raw.githubusercontent.com/copperbookworm/Yehorivka-MapData/main/maps-data/`。
+  - 格式：`{schema:1, slug, name, v, minx, maxx, minz, maxz, lo, hi, img:{14 张图层}, flag_db, flag_cn}`，
+    `v` = 不含 v 的序列化内容 sha256 前 12 位（本图 `8b23709cd41c`，2,843,595 字节）；
+    `manifest.json` = `{schema, updated, base, builtin:{slug:v}, maps:{slug:{name,v,size,sha256}}}`，
+    本图 sha256 `5dd934d389fb212d7e14f4b54cb5eab82046aadee7d7accaa81411ca6f9f92e8`。
+  - 页面：新增 **地图数据 · 在线更新** 面板（`#mdataStat/#mdataBase/#mdataCheck/#mdataDl/#mdataDlAll/#mdataDel`）；
+    启动时 `MAP_PACK = YehorivkaBridge.mapPackGet(MAP_SLUG)`（没有桥就退回 `localStorage['mappack:<slug>']`），
+    有本机包就覆盖 `MINX/MAXX/MINZ/MAXZ`、`ELEV_LO/HI`、14 个 `IMG_*` 与 `FLAG_DB/FLAG_CN`；
+    `MAP_FILE` 改成 `MAP_SLUG`；`MAP_DATA_V` 由构建脚本注入，用来比「内置版本 / 本机版本 / 远端版本」。
+  - 原生：`AndroidManifest.xml` 加 `<uses-permission android:name="android.permission.INTERNET"/>`
+    （0.38.0 及以前完全没有网络权限）；`ArchiveBridge` 新增 `mapPackGet/mapPackInfo/mapPackList/
+    mapPackDelete/mapPackDownload/netGet`，后台线程下载 + 边下边算 SHA-256，大小 / 哈希都对上才原子替换，
+    包存 `getFilesDir()/maps/<slug>.json`、索引 `index.json`（与包同目录）；上限 24 MB/包、2 MB/清单。
+  - 构建：`tools/build_maps.py` 生成页面的同时写 `dist/maps-data/<slug>.json` 并合并 `manifest.json`；
+    全量跑一次得到 25 页 + 26 个 json。
+  - 验证：从 GitHub raw 直接拉 manifest 与 3 个包，字节数与 sha256 **全部与清单一致**；
+    Firefox（`file://` 打开生成页）点「检查更新」→「远端版 8b23709cd41c（2.7 MB）· 已是最新」；
+    另用「底座层换成品红图」的变体包验证过**下载后地图真的按本机包重绘**。
+  - 模拟器实测（AVD asprobe33，重装 0.39.0 后）：`#appVer` = v0.39.0、`versionCode` 45 / `versionName` 0.39.0；
+    面板显示「原生桥已就绪」→ **检查更新** → 「远端版 8b23709cd41c（2.7 MB）· 已是最新」「已读到远端清单（2026-10-27）」；
+    **下载本图** → 「正在下载 yehorivka（1/1，2.7 MB）」→ 自动重载 → 「本机已下载 8b23709cd41c（2.7 MB）· **正在用它**」、
+    「本机已下载 1 张，共 2.7 MB」；logcat 有 `YehorivkaMap: pack saved yehorivka 2843595 bytes v=8b23709cd41c`（字节数与远端包完全一致）；
+    **删除本图数据** → 重载 → 回到「本机没下载 · 正在用安装包内置数据」「0 张，共 0 B」；全程无 `FATAL EXCEPTION` / ANR。
+  - node --check 通过（js 3,617,021 字符）；build_maps.py 重生成 25 页（yehorivka wrote 3,541,875）；
+    包内 25 页 `MAP_DATA_V` 与 manifest 逐一对齐（25/25）、都带新面板与更新模块（25/25）；
+    versionCode 45 / 0.39.0，APK **55,793,382 字节**，SHA256
+    `4C97778EB7CB09D0B4A500503459A7652D4DEBE95EFAB04A6184D18FE9CA6C99`。
+  - **真机仍未验证**（adb devices 只有 emulator-5554）。
+
+- **0.40.0 主基地部队编成（敌情标记里选阵营 / 对局类型 / 具体部队）**：数据来自 SquadCalc 的 layer 单位表
+  （`D:\mil-ai\SquadCalc_res\layers\vanilla`，206 个 layer JSON：载具数量 / 延迟 / 重生 / 票值 / 座位）与
+  squad-armor 的 faction setup（人员名额、工事、指挥官技能），合并成 **267 条编制**（250 个可选具体部队 +
+  17 个 `*_FSTemplate` 阵营模板，模板不显示），全部内嵌进页面 `var SQ_UNIT`，运行时不联网。
+  - 同名同延迟同重生的载具行 **合并数量**（49 处），避免出现两行同名车；载具按 **延迟升序 → 数量降序 → 名称** 排。
+  - 中文化在数据层烘好：车型 17 / 兵种 28 / 指挥官技能 16 / 工事 70 / 类别 3 / 特性 21；曾因两条 key 带尾空格
+    （`"2 Mortars avaliable per FOB "` / `"-1 Mortar avaliable per FOB "`）替换未命中，改成 JSON.parse 后按 key 替换修好。
+  - 验证：Firefox 打开模板页与生成页，`#appVer` = v0.40.0、17 个阵营、切阵营 / 对局类型 / 部队后 `#buOut` 立即重渲染、
+    console 0 条报错；**250 个部队逐个 change 渲染，0 空面板 0 异常**（2.0 s）；
+    抽查 RGF_LO_Support 与原始 layer 一致；USA 1st Infantry Division 11 种车（8 种开局可用，M1A2 延迟 15 分、
+    M939 Transport 与 UH-60M 延迟 6 分）。
+  - 包内校验：`assets/maps` 25 页 **全部** 含 `var SQ_UNIT` / `id="buSec"` / `v0.40.0`，0 页遗漏；
+    versionCode 46 / 0.40.0，APK **56,453,770 字节**，SHA256
+    `C77B93DE38D67CCEEAE6D287F7741D071177DFF653F8F9C3CBB22E7BE7C14F53`。**真机未验证**。
+
+- **0.41.0 对局规模跟着「旗点 · 占领区」自动判定**：面板不再让玩家自己选大图 / 中图 / 小图。
+  - 新增 `BU_LSZ`（**196 条** layer → 规模，由 206 个 layer 的 unit 后缀统计；10 个只有 `*_FSTemplate` 的 layer 不入表）
+    与 `buLayerSize / buVarsForSize / buPickVar / buHintHtml / buSyncFromFlag / buHookFlag`；
+    `buHookFlag()` 把 `flagSyncLayer` / `flagSetLayer` 各包一层回调（flagInit 在 IIFE 末尾执行，早于此的 buInit 拿不到 layer）。
+  - **只有 Invasion 的大图 / 中图才分进攻方（LO/MO）与防守方（LD/MD）**；AAS / RAAS 两队编成相同，忽略攻守偏好
+    （第一版没这限制，Sumari 小图被错选成「小图 · 遭遇战」）。手动改对局类型即转手动模式，提示行给「恢复跟随」。
+  - 覆盖度：25 页 FLAG_DB 键并集 **127 条全部命中 BU_LSZ**（L 97 / M 22 / S 8）；只有 `jensen.html` 的 FLAG_DB 是空对象
+    （SquadCalc 无 Jensen 图层），走「本图无旗点数据 · 无法自动判定对局规模」提示。
+  - 浏览器实测（file:// 打开生成页，dispatch change）：yehorivka 切 `Yehorivka_AAS_v2` / `Yehorivka_Invasion_v1`
+    后提示「旗点 Invasion · 大图 → 已自动选「大图 · 进攻方」」、`#buVar`=LO、unit=`ADF_LO_Mechanized`，console 0 条；
+    sumari 自动选 S（`ADF_S_CombinedArms`）；harju AAS_v1→LO / AAS_v2→MO / RAAS_v3_CL→MO / Invasion_v1→LO 带攻守注解；
+    jensen 提示「本图无旗点数据 · 无法自动判定对局规模，请手动选大图 / 中图 / 小图」；「关闭跟随 / 恢复跟随」可切换。
+  - `python tools/build_maps.py` 全量重建 25 页耗时 **124 s**；Gradle（**JDK 17**）BUILD SUCCESSFUL in 22s；
+    versionCode 47 / versionName 0.41.0（aapt2 dump badging 核对），APK **56,525,242 字节（53.91 MB）**，SHA256
+    `FFF007A3857BE17B8B6FF49FDAD50F7F183C289F8FF4DDF87A449CB9077089C8`；
+    包内 25 页全部含 `var BU_LSZ =` / `id="buAuto"` / `v0.41.0`（0 页缺失）。**真机未验证**。
+
+- **0.42.0 查询点坡度箭头（可关）**：
+  - 新增 `hAtM(mx, mz)`（双线性高程采样，`fx = mx / CELLX - 0.5` 取格心）与
+    `kpSlopeAt(mx, mz)`：以标记点为中心、`KP_SLOPE_R = 4` 格（约 ±25 m）窗口做**最小二乘平面拟合**，
+    窗口对称 ⇒ `gx = sx / sxx`、`gz = sz / szz`，下坡方向 `ux = -gx`、`uz = -gz` 归一化；
+    结果按 (x,z) 缓存，draw 每帧调用不重算。
+  - 画法：起点半径 9 px、长 30 px，`#ffb86b` 主体（线宽 2.2）+ `rgba(6,12,18,.92)` 深色衬底（线宽 5）
+    与放大 1.45 倍的衬底箭头（`arrowHead(k)` 闭包），任何底图都看得清；衬底最初给 1.9 倍，
+    在橄榄绿底图上显得头重脚轻，改到 1.45。
+  - 与标签冲突：坐标标签原本画在 `py - 17`，正好压在朝上的箭头上（实测箭头被标签挡住只剩 18 px 露头）；
+    现在 `kpArrowUp = az < -0.3` 时标签改画到 `py + 36`（标记点下方）。
+  - 开关：`#tSlope`（`显示坡度箭头（指向下坡最快方向）`，默认 checked），`setSlopeArrow(on)` 写
+    `localStorage['sqslope:' + MAP_FILE]`（按地图记忆），初始化时读回。
+  - **独立核对**：把模板里的 `IMG_ELEV`（1024×1024 PNG，`ELEV_LO 0 / ELEV_HI 247.8`）导出，用 Python + Pillow
+    重写一遍采样与拟合，在 (2783.33, 3183.33) 处得到 `ux=0.091243 uz=-0.995829 deg=4.617`，
+    与页面内计算 `0.09124287636053281 / -0.9958286687545486 / 4.617032707212247` **完全一致**。
+  - 方位角核对（读 canvas 像素，连通域 107 px 做 PCA 求轴、按宽度判箭头端，与算法方向比）：
+    `D3 71.6°/71.4°`、`Q4 -179.5°/-178.8°`、`B15 112.4°/112.4°`、`L6 -123.0°/-123.1°`、
+    `O16 81.3°/81.5°`、`M12 33.9°/33.8°`、`J11-4-3 -84.5°/-84.8°` —— **最大偏差 0.69°**。
+  - 开关实测：勾掉后琥珀色像素 109 → 2（只剩底图噪点），勾回 109；关掉后重载页面 checkbox 仍为关、箭头不画。
+  - sumari（沙色等高线底图）C3 / A1 处同样画出 107 px 箭头，console 0 条。
+  - `python tools/build_maps.py` 重建 25 页；Gradle（JDK 17）BUILD SUCCESSFUL in 26s；
+    versionCode 48 / versionName 0.42.0（aapt2 核对），APK **56,568,430 字节（53.95 MB）**，SHA256
+    `CA06B25F5EC96364F1A3E4F5200DC36F98A5C3DAC1E13AB7F42C455F6B89DBD6`；
+    包内 25 页全部含 `id="tSlope"` / `kpArrowUp` / `v0.42.0`（0 页缺失）。**真机未验证**。
+
+- **0.43.0 右侧「查询 / 测距」按钮 + 查询对话框 + 更快的自动下滑**：
+  - 右侧按钮挂在原 `#zoomCtl`（`position:absolute; right:12px; top:12px; flex-direction:column; gap:6px; z-index:6`，
+    40×40 圆角）里，`zTopo` 之后加 `<div class="zSep">` 分隔线 + `#qInspect`（`查`）+ `#qMeasure`（`距`）；
+    `ICON_OF` 加 `qInspect:'locate'` / `qMeasure:'ruler'`，`ICON_ONLY` 加这两个键 → 文字被 SVG 图标替换、
+    保留 `aria-label`；可见性沿用放大键那条 `@media (max-width:880px),(pointer:coarse)`。
+    `setMode()` 里同步给这两个按钮切 `.on`（青边高亮）。
+  - 对话框 `#kpDlg`（`.dlgWrap` 全屏 `rgba(4,7,10,.62)` / `.dlgBox` `94vw`、`max-width:360px`、z-index 40）：
+    标题「查询坐标」+ ✕、`#kpDlgIn` 输入框、`#kpDlgGo` 定位、`#kpDlgOut` 结果区、`#kpDlgPick` 在地图上点选、`#kpDlgClose`。
+    按钮都带 `data-ic="skip"`，避免被 `iconsApply()` 自动塞图标。
+  - 逻辑：`kpDlgGo()` 先用现成的 `kpParse()` 校验（失败只红字提示「坐标格式不对」），成功则把文本写回 `#kpInput`、
+    `setMode('inspect')`、调原 `kpLocate()`（保持 kpFocus / kpHold / 别名回显那套行为），再把 `#kpOut.innerHTML`
+    搬进对话框；`kpDlgPickMode()` 关框、置 `kpPickPending = true`、改 `#modeHint`；`showInspect()` 末尾检测
+    `kpPickPending` → 自动 `kpDlgResult(tip.innerHTML)` 把结果框弹回来。输入框支持回车（`key==='Enter'||keyCode===13`），
+    点遮罩空白处关闭。左侧模块列表的 `#mInspect` 也调用 `kpDlgOpen()`，与右侧按钮一致。
+  - 提速：`fastScroll(el, ms)` 先算 `top = el.rect.top - panelScroll.rect.top + panelScroll.scrollTop - 6`，clamp 到
+    `[0, scrollHeight-clientHeight]`，再按 140 ms 三次缓出逐帧写 `scrollTop`（`rAF` + `cAF`，同一时刻只跑一个动画）；
+    面板不可滚动时回退 `el.scrollIntoView({block:'start'})`。原先 15 处
+    `setTimeout(…80)` + `scrollIntoView({block:'start',behavior:'smooth'})` 全部替换为
+    `rAF(function(){ fastScroll(document.getElementById('…')); })`（替换后旧写法残留 0 处）。
+  - **实测（Firefox，视口 500×795 的触屏布局，`#panelScroll` 349 px 高）**：
+    - 同一段 1290 px 滑动：原生 `scrollIntoView({behavior:'smooth'})` **613 ms**（84 帧），
+      `fastScroll` **121 ms**（25 帧）——约 5 倍；且不再有原来那 80 ms 空等。
+    - 逐个点 16 个模块按钮（路线 / 可达区 / 伏击 / 火力支援 / 旗点 / 沿线通视 / 通视 / 测距 / 区域入口 /
+      最近隐蔽点 / 隐蔽推进 / 区域分区 / 敌情标记 / 自由路线 / 区域标注 / 查询）：目标区块 `rect.top - 面板 top` 稳定为
+      **6 px**（路线与可达区共用 `#routeExtra`，本身就在面板顶部，滚动量为 0 属正常），console **0 条**。
+    - 点右侧「查询」（`#qInspect`）：`#kpDlg` 变 `display:flex`，输入框自动带出上次坐标并聚焦；
+      输入 `H7-11-2` 点「定位」→ 结果框「H7-7-2 ｜ =H7-11-2 ｜ 树线 ｜ 高程 108.8 m · 坡度 4.3° ｜ 开阔地 ｜
+      X -1153 / Z -1420 m」，`#kpOut` 同步、`#kpInput` = `H7-11-2`。
+    - 点「在地图上点选」→ 框关闭、`#modeHint` 改为「点地图任意位置…查完弹出结果」；随后向 `#cv`
+      dispatch `pointerdown(buttons:1)` + `pointerup`（画布 42% / 55% 处）→ 结果框**自动弹回**并显示
+      「G7-5-2 可行 高程 84.5 m · 坡度 9.7° 开阔地 X -1358 / Z -1302 m」。
+    - 生成页 `sumari.html` 复测：`#appVer` = `v0.43.0`、`#zoomCtl` display flex、对话框输入 `C3-7-5` →
+      「C3-7-5 顺畅 高程 0.0 m · 坡度 0.0° 开阔地 X 11 / Z 204 m」、`#kpSec` 与 `#measureSec` 均贴顶 6 px、console 0 条。
+  - `python tools/build_maps.py` 重建 25 页（`manifest 5212 bytes, 25 maps`）；Gradle（JDK 17）
+    **BUILD SUCCESSFUL in 43s**；versionCode **49** / versionName **0.43.0**（aapt2 dump badging 核对：
+    `package: name='com.squadmind.yehorivkamap' versionCode='49' versionName='0.43.0' compileSdkVersion='35'`），
+    APK **56,614,242 字节（53.99 MB）**，SHA256
+    `96EB1962EEE7084836938219D955333570A7F89E72A2775FBE5D6E18D22DAA83`；
+    包内 25 页全部含 `id="kpDlg"` / `id="qInspect"` / `function fastScroll` / `v0.43.0`（0 页缺失）。**真机未验证**。
+
+- **0.43.1「显示网格坐标系」复选框失效修复**：
+  - 根因：`drawKP()` 由 `if (state.kpOn || state.kpIdx >= 0)` 调用，函数体内网格线（`grid()` 两次 + 100 m / 33 m
+    细线）、方格字母 / 行号（`if (kx >= 30) … else …` 两分支）、100 m 子格数字（`if (kx / 3 >= 30)`）、
+    高亮绿框（`if (state.kpIdx >= 0)` 里那段 `strokeRect`）**都没有看 `state.kpOn`**，取消勾选只改状态不改绘制。
+  - 修法：这四段各自包进 `if (state.kpOn) { … }`（标签两分支改成 `if (state.kpOn && kx >= 30) … else if (state.kpOn)`），
+    十字标记、坐标标签、坡度箭头留在 `if (state.kpIdx >= 0)` 原处不受影响。
+  - 语义与记忆：`state.kpUserGrid`（null/true/false）+ `localStorage['sqkp:<slug>']`；`kpGridAutoOn()` 只在
+    「玩家没手动关过」时把网格打开，`kpLocate()` 与 `showInspect()` 都改调它，`#tKP` 的 change 处理器写记忆。
+  - **实测（Firefox，模板页 yehorivka，画布 1143×975，`getImageData` 统计近中性亮像素 / 标记绿 / 箭头的琥珀）**：
+    - 定位 `J11-4-3` 后勾选态：light **18899**、green **593**（含 300 m 高亮绿框）、amber **104**；
+    - 取消勾选（`#tKP` change）：light **964**、green **108**（只剩十字 + 圆点）、amber **104**（箭头照画）；
+    - 再勾上：light 回到 **18899**、green 593，`localStorage['sqkp:yehorivka-vehicle-passability'] = "1"`；
+    - 关掉后重载页面：存储为 `"0"`、复选框未勾，此时点「定位」`H7-11-2` → light 仍 **964**、green 127、
+      复选框仍不勾（说明「手动关过」的选择被尊重，不再被查点强行打开）；
+    - 清空存储后重载：无记录、复选框未勾，第一次定位 `D3-7-4` → 复选框自动勾上、light **10525**（此时已放大到
+      该点，可见格数变少故比 18899 小）；
+    - 「在地图上点选」流程（网格已关）：向 `#cv` dispatch `pointerdown(buttons:1)` + `pointerup`（62% / 42% 处）→
+      对话框自动弹回「F2-8-5 顺畅 高程 70.0 m · 坡度 3.3° 开阔地 X -1649 / Z -2952 m」，light 前后都是 964（网格未复活）；
+    - 全程 console **0 条**；截图对比确认关时无格线、开时格线与字母行号齐全。
+  - `python tools/build_maps.py` 重建 25 页（`manifest 5212 bytes, 25 maps`），25 页全部含 `state.kpUserGrid` /
+    `kpGridAutoOn` / `v0.43.1`（0 页缺失）；Gradle（JDK 17）**BUILD SUCCESSFUL in 8s**；
+    versionCode **50** / versionName **0.43.1**（aapt2：`package: name='com.squadmind.yehorivkamap' versionCode='50'
+    versionName='0.43.1' compileSdkVersion='35'`），APK **56,627,498 字节（54.00 MB）**，SHA256
+    `A18D745CCF0F7CB1FFDA17318BBB0A452EAD3A8CA88E927DEF27AAC3A716BBD9`；解包 python zipfile 核对 25 页均含三个标记
+    （bad `[]`）。**真机未验证**。
+
+- **0.43.2 查询对话框按钮改名 + 手指图标**：
+  - 改动：`#kpDlgPick` 文本「在地图上点选」→「点地图得坐标」，去掉 `data-ic="skip"` 让 `iconsApply()` 自动插入
+    `ICON_SVG.fingerTap`（Material `touch_app`，路径 `M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74…`，
+    `fill="currentColor" stroke="none"`），`ICON_OF` 加 `kpDlgPick: 'fingerTap'`；`.dlgBtns button > svg.ic` 放大到 17 px。
+  - 图标选型：先试了 5 个自绘描边手指，15 px 下全糊成黑块；单指竖起的实心手形容易被读成「竖中指」，弃用；
+    最终用 Material `touch_app`（食指 + 掌心 + 触点），5 倍最近邻裁切（`D:\mil-ai\.tmp\dlgbtn_crop.png`）目视确认 17 px 可辨。
+  - Firefox 实测（视口 500×800，模板页）：`#appVer` = `v0.43.2`；`#kpDlgPick` 文本「点地图得坐标」、
+    `data-ic="fingerTap"`、`svg.ic` 实测宽 **17 px**；默认提示同步为「…也可以点「点地图得坐标」…」。
+  - 流程复测：点该按钮 → `#kpDlg` 关闭、`#modeHint` =「点地图任意位置，查出该点的网格坐标 / 高程 / 坡度…」；
+    向 `#cv` dispatch `pointerdown(buttons:1)`+`pointerup`（55%/45%）→ 对话框自动弹回
+    「M10-4-4 顺畅 高程 118.6 m · 坡度 1.0° 开阔地 X 304 / Z -453 m」。全程 console **0 条**。
+  - `python tools/build_maps.py` 重建 25 页（`manifest 5212 bytes, 25 maps`），25 页全部含
+    `<button id="kpDlgPick">` / `fingerTap` / `点地图得坐标` / `v0.43.2`，且无 `data-ic="skip"` 残留（bad `[]`）；
+    Gradle（JDK 17）**BUILD SUCCESSFUL in 19s**；versionCode **51** / versionName **0.43.2**
+    （aapt2：`package: name='com.squadmind.yehorivkamap' versionCode='51' versionName='0.43.2' compileSdkVersion='35'`），
+    APK **56,634,962 字节（54.01 MB）**，SHA256 `4DFE03C64B9B0CA642D3B324DBEBEFFD31BE16689DB184417E7B02405CADBCFB`；
+    解包 python zipfile 核对 25 页均含四个标记（bad `[]`）。**真机未验证**。
+
+- **0.43.3 非法坐标拒绝**：
+  - 改动：删掉 `kpParse()` 的两位数字分支与其注释、删掉只为两位写法服务的 `kpSegText()` 与回显 alias 逻辑；
+    子格段改判 `/^0*[1-9]$/`（只认 1–9，允许补零），失败原因写进模块变量 `kpParseErr`，
+    `kpLocate()` 与 `kpDlgGo()` 都改成「这个坐标不合法 + 具体原因 + 写法示例」。
+    `kpParse()` 现在多返回 `depth`，`kpLocate()` 用 `pos.depth` 取标签深度。
+  - Firefox 实测（模板页，v0.43.3，逐条点「定位」读 `#kpOut`）：
+    `G10-3-12` → 「…二级子格只能填 1–9 中的一个数字…「12」不合法」；`G10-3-0`、`G10-3-33` 同段报错；
+    `H7-11-2` → 「一级子格…「11」不合法」；`D3-7-4-1` → 「最多两级子格」；`ZZ99` → 「主格 ZZ99 不在这张地图上」；
+    `J25-1` → 「主格 J25 不在这张地图上」；`G10-3-4` → 正常 `高程 112.7 m · 坡度 14.3° X -1283 / Z -353 m`；
+    `D3`、`D3-7`、`D3-7-4`、`d3-7-4`、`D03-07-04`、`D3 7 4` 全部正确定位（后者标签显示 `D3-7-4`）。
+  - 对话框路径：输 `G10-3-12` 点「定位」→ 框保持打开、结果区报同一原因，`#kpInput` 仍是上一个合法坐标
+    `G10-3-4`（不覆盖旧标记）；随后输 `G10-3-4` 正常出结果。全程 console **0 条**。
+  - `python tools/build_maps.py` 重建 25 页（`manifest 5212 bytes, 25 maps`），25 页全部含
+    `kpParseErr` / `pos.depth` / `v0.43.3` 且不再含 `kpSegText`（bad `[]`）；Gradle（JDK 17）
+    **BUILD SUCCESSFUL in 18s**；versionCode **52** / versionName **0.43.3**
+    （aapt2：`package: name='com.squadmind.yehorivkamap' versionCode='52' versionName='0.43.3' compileSdkVersion='35'`），
+    APK **56,642,238 字节（54.02 MB）**，SHA256 `5C6AC0B84AE5CAAAEE5FD2F3CEC9AFE9CAAE34EFC8DF5A5E0583F3B2AD2EDAEA`；
+    解包核对 25 页同四个标记（bad `[]`）。**真机未验证**。
+
+- **0.43.4 通视分析挪到地图右侧**：
+  - 改动：`#zoomCtl` 在 `#qMeasure` 之后加 `<button id="qLos" aria-label="通视分析" title="通视分析（2 km）">视</button>`；
+    `ICON_OF` 加 `qLos: 'eye'`、`ICON_ONLY` 加 `qLos: 1`（渲染成 SVG 眼睛，与放大键那排同款）；
+    `kpDlgInit()` 里绑定 `#qLos` → `setMode('los')` + `fastScroll(#losSec, 120)`；
+    `setMode()` 里加 `_ql.classList.toggle('on', m === 'los')` 与面板 `#mLos` 同步高亮。
+  - Firefox 实测（视口 500×800，模板页 v0.43.4）：`#zoomCtl` display **flex**，7 个子元素
+    `zIn/zOut/zFit/zTopo/zSep/qInspect/qMeasure/qLos` 全部渲染为 svg，`#qLos` 实测 **40×40**；
+    点它 → `#losSec` display **block**、`#qLos` 带 `.on`、`#panelScroll` 滚到 `scrollTop 1290`、
+    `#losSec` 距面板顶 **6 px**、提示行切到「点地图选观察点做通视分析，显示 2 km 内的可…」；截图确认眼睛按钮高亮。
+  - 互斥检查：点「测距」→ `#qLos` 的 `.on` 变 false；点面板「通视分析」→ 又变 true；
+    点面板「查询」→ 变 false（高亮始终只跟着当前模块）。
+  - `python tools/build_maps.py` 重建 25 页（`manifest 5212 bytes, 25 maps`），25 页全部含
+    `id="qLos"` / `qLos: 'eye'` / `v0.43.4`（bad `[]`）；Gradle（JDK 17）**BUILD SUCCESSFUL in 19s**；
+    versionCode **53** / versionName **0.43.4**（aapt2：`package: name='com.squadmind.yehorivkamap'
+    versionCode='53' versionName='0.43.4' compileSdkVersion='35'`），APK **56,644,206 字节（54.02 MB）**，
+    SHA256 `AF82922669A123BF68D990B8145B6A3329A21348DD51E73C62156E1847872D5D`；
+    解包 python zipfile 核对 25 页均含三个标记（bad `[]`）。**真机未验证**。
+
 - Android 13 模拟器（sdk_gphone64_x86_64，1080×2340）：
   - install + launch 成功，无 `FATAL EXCEPTION` / ANR。
   - **地图切换**：下拉列出 25 张官方图；Yehorivka → Al Basrah 整页加载成功；
@@ -983,7 +1514,7 @@ ADB（手机开启 USB 调试）：
   - **0.15.0 网格坐标**：Android 13 模拟器点“查询”→ 勾网格 → 点图得 `K8-5-4`（浮卡 / 面板 /
     输入框三处一致，`X -174 / Z -1054 m`）；输 `D3-7-4` 点“定位”后地图 1.2 倍居中、绿框与
     `D3-7-4` 气泡正常，面板 `高程 112.7 m · 坡度 7.3° · 开阔地 · X -2387 / Z -2654 m`；
-    输 `H7-11-2` 回显 `H7-7-2　=H7-11-2`、`X -1153 / Z -1420 m`（与桌面版同值）；`ZZ99` 提示格式错误。
+    输 `H7-11-2` 回显 `H7-7-2　=H7-11-2`、`X -1153 / Z -1420 m`（与桌面版同值）；`ZZ99` 提示格式错误（注：0.43.3 起两位写法 `H7-11-2` 不再被接受，见文末 0.43.3 验证）。
     缩到整图时顶部/左侧标尺 `A…V` / `1…22` 正常，放大后每格标号与 100 m 数字出现，无崩溃。
     数学自检（Node 抽出 `kpTextAt` / `kpParse` 跑）：`D3-7-4` → (916.7, 650.0)、
     `H7-11-2` → (2150.0, 1883.3)、`V22-3-5` → (6350, 6350)；2904 组坐标（键盘码与两位写法
