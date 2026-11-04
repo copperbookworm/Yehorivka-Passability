@@ -1,0 +1,7 @@
+# 运行依赖（Python 3.10+，Windows 10/11 x64）
+PySide6-Essentials>=6.6
+Pillow>=10.0
+numpy>=1.26
+
+# 打包（可选）
+# pyinstaller>=6.6
