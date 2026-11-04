@@ -1,0 +1,478 @@
+[
+ {
+  "key": "Mortar#default",
+  "name": "FOB 81mm 迫击炮 · M821A1",
+  "grp": "部署",
+  "v": 110,
+  "moa": 50,
+  "gs": 1,
+  "minEl": [
+   45,
+   88.875
+  ],
+  "unit": "mil",
+  "prec": 0,
+  "hOff": 1,
+  "life": 100,
+  "minD": 51,
+  "ang": "high"
+ },
+ {
+  "key": "UB-32#default",
+  "name": "UB-32 火箭巢 · 部署",
+  "grp": "部署",
+  "v": 300,
+  "moa": 300,
+  "gs": 2,
+  "minEl": [
+   -25,
+   35
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 1,
+  "life": 20,
+  "minD": 0,
+  "dec": 50,
+  "decT": 2,
+  "ang": "low"
+ },
+ {
+  "key": "HellCannon#default",
+  "name": "Hell Cannon 火箭炮 · 部署",
+  "grp": "部署",
+  "v": 95,
+  "moa": 100,
+  "gs": 1,
+  "minEl": [
+   10,
+   90
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 1.5,
+  "life": 100,
+  "minD": 0,
+  "ang": "high"
+ },
+ {
+  "key": "Tech.Mortar#default",
+  "name": "车载 81mm · Technical",
+  "grp": "车载",
+  "v": 110,
+  "moa": 50,
+  "gs": 1,
+  "minEl": [
+   -45,
+   135
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 2.5,
+  "aOff": 5,
+  "life": 100,
+  "minD": 51,
+  "ang": "high"
+ },
+ {
+  "key": "Tech.UB-32#default",
+  "name": "UB-32 火箭巢 · 车顶",
+  "grp": "车载",
+  "v": 300,
+  "moa": 300,
+  "gs": 2,
+  "minEl": [
+   -45,
+   135
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 2.5,
+  "life": 20,
+  "minD": 0,
+  "dec": 50,
+  "decT": 2,
+  "ang": "low"
+ },
+ {
+  "key": "BM-21Grad#default",
+  "name": "BM-21 冰雹 · 122mm 火箭",
+  "grp": "车载",
+  "v": 200,
+  "moa": 200,
+  "gs": 2,
+  "minEl": [
+   -45,
+   135
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0,
+  "ang": "low"
+ },
+ {
+  "key": "M1064M121#impact",
+  "name": "120mm M121 · 碰炸",
+  "grp": "车载",
+  "v": 142,
+  "moa": 40,
+  "gs": 1,
+  "minEl": [
+   -45,
+   85.3
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 340,
+  "ang": "high"
+ },
+ {
+  "key": "M1064M121#nearSurface",
+  "name": "120mm M121 · 近地空爆",
+  "grp": "车载",
+  "v": 142,
+  "moa": 50,
+  "gs": 1,
+  "minEl": [
+   -45,
+   85.3
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 340,
+  "ang": "high"
+ },
+ {
+  "key": "Mk19#default",
+  "name": "Mk19 榴弹发射器 · 40mm",
+  "grp": "车载",
+  "v": 230,
+  "moa": 50,
+  "gs": 1,
+  "minEl": [
+   -45,
+   85.3
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 4,
+  "aOff": 0.984,
+  "life": 20,
+  "minD": 10,
+  "ang": "low"
+ },
+ {
+  "key": "BTR4-AGS#default",
+  "name": "BTR-4 AGS-30 · 30mm 榴弹",
+  "grp": "车载",
+  "v": 190,
+  "moa": 15,
+  "gs": 1,
+  "minEl": [
+   -45,
+   135
+  ],
+  "unit": "degMin",
+  "prec": 1,
+  "hOff": 3.4,
+  "aOff": 0.73459689,
+  "life": 20,
+  "minD": 0,
+  "ang": "low"
+ },
+ {
+  "key": "SuperMod:MO120RTF1#MO-SHORT",
+  "name": "〔SuperMod〕MO120RTF1 · MO-SHORT",
+  "grp": "模组",
+  "v": 110,
+  "moa": 30,
+  "gs": 1,
+  "minEl": [
+   45,
+   85.3
+  ],
+  "unit": "mil",
+  "prec": 0,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0,
+  "ang": "high"
+ },
+ {
+  "key": "SuperMod:MO120RTF1#MO-MEDIUM",
+  "name": "〔SuperMod〕MO120RTF1 · MO-MEDIUM",
+  "grp": "模组",
+  "v": 143.5,
+  "moa": 30,
+  "gs": 1,
+  "minEl": [
+   45,
+   85.3
+  ],
+  "unit": "mil",
+  "prec": 0,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0,
+  "ang": "high"
+ },
+ {
+  "key": "SuperMod:MO120RTF1#MO-LONG",
+  "name": "〔SuperMod〕MO120RTF1 · MO-LONG",
+  "grp": "模组",
+  "v": 171.5,
+  "moa": 30,
+  "gs": 1,
+  "minEl": [
+   45,
+   85.3
+  ],
+  "unit": "mil",
+  "prec": 0,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0,
+  "ang": "high"
+ },
+ {
+  "key": "SuperMod:type_63#default",
+  "name": "〔SuperMod〕type_63",
+  "grp": "模组",
+  "v": 300,
+  "moa": 300,
+  "gs": 2,
+  "minEl": [
+   -20,
+   55
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0.5,
+  "ang": "low"
+ },
+ {
+  "key": "InfiniteWarefare:PZL07#High-Explosive",
+  "name": "〔InfiniteWarefare〕PZL07 · High-Explosive",
+  "grp": "模组",
+  "v": 140,
+  "moa": 40,
+  "gs": 1,
+  "minEl": [
+   -90,
+   90
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 2,
+  "life": 100,
+  "minD": 0,
+  "ang": "low"
+ },
+ {
+  "key": "InfiniteWarefare:PZL07#Air-Burst",
+  "name": "〔InfiniteWarefare〕PZL07 · Air-Burst",
+  "grp": "模组",
+  "v": 140,
+  "moa": 40,
+  "gs": 1,
+  "minEl": [
+   -90,
+   90
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 2,
+  "life": 100,
+  "minD": 0,
+  "ang": "low"
+ },
+ {
+  "key": "SteelDivision:M109#default",
+  "name": "〔SteelDivision〕M109",
+  "grp": "模组",
+  "v": 225,
+  "moa": 1.5,
+  "gs": 2,
+  "minEl": [
+   -45,
+   135
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 2.206,
+  "aOff": -0.01,
+  "life": 100,
+  "minD": 0,
+  "ang": "low"
+ },
+ {
+  "key": "SteelDivision:M777#default",
+  "name": "〔SteelDivision〕M777",
+  "grp": "模组",
+  "v": 200,
+  "moa": 1.5,
+  "gs": 2,
+  "minEl": [
+   15,
+   80
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 4,
+  "life": 100,
+  "minD": 700,
+  "ang": "low"
+ },
+ {
+  "key": "SteelDivision:T62.DUMP.TRUCK#default",
+  "name": "〔SteelDivision〕T62.DUMP.TRUCK",
+  "grp": "模组",
+  "v": 210,
+  "moa": 100,
+  "gs": 2,
+  "minEl": [
+   -45,
+   135
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0,
+  "ang": "low"
+ },
+ {
+  "key": "SteelDivision:HIMARS#default",
+  "name": "〔SteelDivision〕HIMARS",
+  "grp": "模组",
+  "v": 250,
+  "moa": 15,
+  "gs": 2,
+  "minEl": [
+   -3,
+   84.7
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0,
+  "ang": "low"
+ },
+ {
+  "key": "SteelDivision:TOS-1A#default",
+  "name": "〔SteelDivision〕TOS-1A",
+  "grp": "模组",
+  "v": 100,
+  "moa": 200,
+  "gs": 1,
+  "minEl": [
+   0,
+   80
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0,
+  "ang": "low"
+ },
+ {
+  "key": "SteelDivision:Ural-HellCannon#default",
+  "name": "〔SteelDivision〕Ural-HellCannon",
+  "grp": "模组",
+  "v": 180,
+  "moa": 300,
+  "gs": 2,
+  "minEl": [
+   10,
+   85
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 0,
+  "ang": "high"
+ },
+ {
+  "key": "SteelDivision:SCUD#default",
+  "name": "〔SteelDivision〕SCUD",
+  "grp": "模组",
+  "v": 150,
+  "moa": 120,
+  "gs": 1,
+  "minEl": [
+   10,
+   90
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 120,
+  "minD": 100,
+  "ang": "low"
+ },
+ {
+  "key": "SteelDivision:Shahed-136#default",
+  "name": "〔SteelDivision〕Shahed-136",
+  "grp": "模组",
+  "v": 120,
+  "moa": 0,
+  "gs": 1,
+  "minEl": [
+   0,
+   60
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 60,
+  "minD": 100,
+  "ang": "low"
+ },
+ {
+  "key": "SquadAdminTools:MTLB_FAB500#default",
+  "name": "〔SquadAdminTools〕MTLB_FAB500",
+  "grp": "模组",
+  "v": 95,
+  "moa": 150,
+  "gs": 1,
+  "minEl": [
+   -45,
+   85.3
+  ],
+  "unit": "deg",
+  "prec": 1,
+  "hOff": 3,
+  "life": 100,
+  "minD": 75,
+  "ang": "low"
+ },
+ {
+  "key": "GalacticContention:Mortar#default",
+  "name": "〔GalacticContention〕FOB 81mm 迫击炮 · M821A1",
+  "grp": "模组",
+  "v": 110,
+  "moa": 50,
+  "gs": 1,
+  "minEl": [
+   45,
+   88.875
+  ],
+  "unit": "mil",
+  "prec": 0,
+  "hOff": 1,
+  "life": 100,
+  "minD": 51,
+  "ang": "high"
+ }
+]
