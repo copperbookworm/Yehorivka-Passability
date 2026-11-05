@@ -8,6 +8,9 @@ Squad（50v50 战术射击）的**离线战术地形分析** App：把 25 张官
 0.39.0 起只声明一条 `INTERNET` 权限，供「地图数据 · 在线更新」里你手动点「检查更新 / 下载」时
 去 [Yehorivka-MapData](https://github.com/copperbookworm/Yehorivka-MapData) 拉数据包，不点完全不联网。
 
+# Squad间瞄火力助手
+去[Squad间瞄火力助手](https://github.com/copperbookworm/Yehorivka-Passability/releases)下载最新版。
+
 * Android 7.0+（minSdk 26）· targetSdk 35 · 版本 **0.43.4**
 * 单页 Canvas 引擎 + WebView 壳；同一份 HTML 也是桌面版，可直接用浏览器打开
 * 25 张官方地图（Yehorivka、Al Basrah、Narva、Gorodok、Skorpo、Logar …）
