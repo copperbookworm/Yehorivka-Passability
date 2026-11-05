@@ -8,7 +8,7 @@
 
 | 文件 | 大小 | SHA-256 |
 | --- | --- | --- |
-| [`Squad.exe`](https://github.com/copperbookworm/Yehorivka-Passability/releases/latest/download/Squad.exe) | 107,721,736 字节（约 102.7 MB） | `80382EDFF30F86578F7D13A78A94BF17B96428501CBF4D560F2D563741E3BC65` |
+| [`Squad_IFC.exe`]([https://github.com/copperbookworm/Yehorivka-Passability/releases/latest/download/Squad.exe](https://github.com/copperbookworm/Yehorivka-Passability/releases/Squad_IFC.exe) |  104 MB | `6068912b14c8820546d11ffba712545f02a03a94537016b474940daf3b09cf89` |
 
 - Windows 10 / 11 x64，双击即用；首次运行在同目录生成 `config.json` 与 `run.log`。
 - 已用自签名证书签名，SmartScreen 仍会提示未知发布者 → 「更多信息 → 仍要运行」。
